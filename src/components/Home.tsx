@@ -1,5 +1,5 @@
 import '../App.css';
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useState, FormEvent } from 'react';
 
 
 const Home = () => {
@@ -14,7 +14,7 @@ const Home = () => {
         setPassword(e.target.value)
     }
 
-    const handleSubmit = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         fetch('http://localhost:3000', {
         mode: 'cors',
