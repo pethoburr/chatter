@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 
 const SignUp = () => {
     const [first_name, setFirstname] = useState('');
@@ -6,19 +6,19 @@ const SignUp = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleFirstname = (e) => {
+    const handleFirstname = (e: ChangeEvent<HTMLInputElement>) => {
         setFirstname(e.target.value)
     }
 
-    const handleLastname = (e) => {
+    const handleLastname = (e: ChangeEvent<HTMLInputElement>) => {
         setLastname(e.target.value)
     }
 
-    const handleUsername = (e) => {
+    const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value)
     }
 
-    const handlePassword = (e) => {
+    const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
     }
 
