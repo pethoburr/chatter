@@ -30,7 +30,11 @@ const SignUp = () => {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ first_name: first_name, last_name: last_name, username: username, password: password})
+            body: JSON.stringify({ first_name: first_name, last_name: last_name, username: username, password: password })
+        }).then((resp: Response) => {
+            return resp.json()
+        }).then((resp: Response) => {
+            console.log(`client response: ${JSON.stringify(resp)}`)
         })
     }
 
