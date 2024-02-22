@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import { useState, ChangeEvent, FormEvent } from 'react';
 
 const SignUp = () => {
     const [first_name, setFirstname] = useState('');
@@ -22,10 +22,22 @@ const SignUp = () => {
         setPassword(e.target.value)
     }
 
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        fetch('http://localhost:3000/sign-up', {
+            mode: 'cors',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ first_name: first_name, last_name: last_name, username: username, password: password})
+        })
+    }
+
     return(
         <>
             <h1>Sign Up</h1>
-            <form>
+            <form onSubmit={(e) => handleSubmit(e)}>
                 <label htmlFor='first_name'>First name:
                     <input type='text' value={first_name} onChange={(e) => handleFirstname(e)} placeholder='Enter first name' />
                 </label>

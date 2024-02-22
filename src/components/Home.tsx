@@ -16,7 +16,7 @@ const Home = () => {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        fetch('http://localhost:3000', {
+        fetch('http://localhost:3000/log-in', {
         mode: 'cors',
         method: 'POST',
         headers: {
