@@ -1,0 +1,56 @@
+import '../App.css';
+import { ChangeEvent, useState, FormEvent } from 'react';
+
+interface DataObj {
+    username: string,
+    password: string
+}
+const LogIn = () => {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+
+    const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
+        setUsername(e.target.value)
+    }
+
+    const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value)
+    }
+
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        console.log(`username: ${username}, password: ${password}`)
+        const data: DataObj = { username, password }
+        fetch('http://localhost:3000/log-in', {
+        mode: 'cors',
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+
+        body: JSON.stringify(data)
+    }).then((resp: Response) => {
+        resp.json()
+        console.log(resp)
+    })
+    }
+
+    
+
+    return(
+        <>
+            <form onSubmit={(e) => { handleSubmit(e)}}>
+                <h1>Log In</h1>
+                <label>Username:
+                    <input type='text' onChange={(e) => handleUsername(e)} />
+                </label>
+                <label>Password:
+                    <input type='text' onChange={(e) => handlePassword(e)} />
+                </label>
+                <button type='submit'>Log In</button>
+            </form>
+        </>
+    )
+}
+
+export default LogIn;
