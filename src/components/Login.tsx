@@ -22,7 +22,7 @@ const LogIn = () => {
         console.log(`username: ${username}, password: ${password}`)
         const data: DataObj = { username, password }
         fetch('http://localhost:3000/log-in', {
-        mode: 'cors',
+       
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -31,7 +31,7 @@ const LogIn = () => {
         body: JSON.stringify(data)
     }).then((resp: Response) => {
         resp.json()
-        console.log(resp)
+        console.log(`resp: ${JSON.stringify(resp)}`)
     })
     }
 
