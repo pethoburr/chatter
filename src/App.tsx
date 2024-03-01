@@ -1,13 +1,29 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import Home from './components/Home';
-import { createContext } from 'react';
+import { createContext, useState } from 'react';
 import './App.css'
 import SignUp from './components/SignUp';
 import LogIn from './components/Login';
 
-export const AuthContext = createContext(undefined)
+export const UserContext = createContext<{ userId: string | null, login: (param1: string) => void, logout: () => void }>({
+  userId: null,
+  login: () => {},
+  logout: () => {}
+});
+
 
 function App() {
+  const saved = localStorage.getItem('userId')
+  const [userId, setUserId] = useState(saved ? saved : null)
+
+  const login = (id: string) => {
+    setUserId(id)
+  }
+
+  const logout = () => {
+    localStorage.clear()
+    setUserId(null)
+  }
 
   const router = createBrowserRouter([
     {
@@ -26,9 +42,9 @@ function App() {
 
   return (
     <>
-      <AuthContext.Provider value={undefined}>
+      <UserContext.Provider value={{ userId, login, logout}}>
           <RouterProvider router={router} />
-      </AuthContext.Provider>
+      </UserContext.Provider>
     </>
   )
 }

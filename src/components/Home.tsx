@@ -1,11 +1,13 @@
 import '../App.css';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useContext } from 'react';
+import { UserContext } from '../App';
 
 const Home = () => {
     const [chats, setChats] = useState([])
+    const { userId } = useContext(UserContext)
     
     const getChats = async () => {
-        await fetch('http://localhost:3000/rooms')
+        await fetch(`http://localhost:3000/rooms/${userId}`)
             .then((resp) => {
                 return resp.json();
             })

@@ -1,6 +1,7 @@
 import '../App.css';
-import { ChangeEvent, useState, FormEvent } from 'react';
+import { ChangeEvent, useState, FormEvent, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../App';
 
 interface DataObj {
     username: string,
@@ -10,6 +11,7 @@ const LogIn = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const { login } = useContext(UserContext)
 
     const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value)
@@ -35,8 +37,11 @@ const LogIn = () => {
         return resp.json();
     }).then((resp) => {
         console.log(`resp: ${JSON.stringify(resp)}`)
-        if (resp.message === 'success') {
+        if (resp.id) {
+            localStorage.setItem('userId', resp.id)
+            login(resp.id)
             navigate('/')
+            return;
         }
     })
     }
