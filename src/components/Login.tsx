@@ -1,11 +1,13 @@
 import '../App.css';
 import { ChangeEvent, useState, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface DataObj {
     username: string,
     password: string
 }
 const LogIn = () => {
+    const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
@@ -30,8 +32,12 @@ const LogIn = () => {
 
         body: JSON.stringify(data)
     }).then((resp: Response) => {
-        resp.json()
+        return resp.json();
+    }).then((resp) => {
         console.log(`resp: ${JSON.stringify(resp)}`)
+        if (resp.message === 'success') {
+            navigate('/')
+        }
     })
     }
 
