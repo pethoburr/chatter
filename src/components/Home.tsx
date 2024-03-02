@@ -6,8 +6,8 @@ const Home = () => {
     const [chats, setChats] = useState([])
     const { userId } = useContext(UserContext)
     
-    const getChats = async () => {
-        await fetch(`http://localhost:3000/rooms/${userId}`)
+    const getChats = () => {
+        fetch(`http://localhost:3000/rooms/${userId}`)
             .then((resp) => {
                 return resp.json();
             })
@@ -18,18 +18,33 @@ const Home = () => {
             })
     }
 
+    const getAllUsers = () => {
+        fetch('http://localhost:3000/users')
+            .then(resp => resp.json())
+            .then((resp) => {
+                console.log(`all users: ${JSON.stringify(resp)}`)
+            })
+    }
+
     useEffect(() => {
+        console.log(`user id: ${userId}, chats: ${chats}`)
+        getAllUsers()
         getChats()
     },[])
 
     return(
         <>
             <div>dis da home page gang</div>
-            { chats && chats.map((chat, index) => {
+            {/* <form>
+                <select>
+                    
+                </select>
+            </form> */}
+            {/* { chats && chats.map((chat, index) => {
                 return(
                     <div key={index}>{chat}</div>
                 )
-            })}
+            })} */}
         </>
     )
 }

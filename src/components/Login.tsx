@@ -37,11 +37,11 @@ const LogIn = () => {
         return resp.json();
     }).then((resp) => {
         console.log(`resp: ${JSON.stringify(resp)}`)
-        if (resp.id) {
-            localStorage.setItem('userId', resp.id)
-            login(resp.id)
+        if (resp.user.id) {
+            localStorage.setItem('userId', resp.user.id)
+            login(resp.user.id)
+            console.log('here')
             navigate('/')
-            return;
         }
     })
     }
