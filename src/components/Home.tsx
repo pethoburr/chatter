@@ -4,6 +4,7 @@ import { UserContext } from '../App';
 
 const Home = () => {
     const [chats, setChats] = useState([])
+    const [users, setUsers] = useState<User[]>([])
     const { userId } = useContext(UserContext)
     
     const getChats = () => {
@@ -12,7 +13,6 @@ const Home = () => {
                 return resp.json();
             })
             .then((resp) => {
-                console.log(`room response: ${JSON.stringify(resp)}`)
                 setChats(resp)
                 return;
             })
@@ -20,31 +20,46 @@ const Home = () => {
 
     const getAllUsers = () => {
         fetch('http://localhost:3000/users')
-            .then(resp => resp.json())
             .then((resp) => {
-                console.log(`all users: ${JSON.stringify(resp)}`)
+                return resp.json();
+            })
+            .then((resp) => {
+                setUsers(resp.users[0])
+                
             })
     }
 
     useEffect(() => {
-        console.log(`user id: ${userId}, chats: ${chats}`)
+        console.log(`all users: ${JSON.stringify(users)}`)
+    },[chats])
+
+    useEffect(() => {
+        console.log(`user id: ${userId}`)
         getAllUsers()
         getChats()
     },[])
 
+    interface User {
+        id: number,
+        first_name: string,
+        last_name: string,
+        username: string,
+        password: string
+    }
+
     return(
         <>
             <div>dis da home page gang</div>
-            {/* <form>
+            <form>
                 <select>
-                    
-                </select>
-            </form> */}
-            {/* { chats && chats.map((chat, index) => {
+                { chats && users.map((user, index) => {
                 return(
-                    <div key={index}>{chat}</div>
+                    <option key={index}>{user.username}</option>
                 )
-            })} */}
+            })}
+                </select>
+            </form>
+             
         </>
     )
 }
