@@ -10,6 +10,7 @@ const Home = () => {
     const [socket, setSocket] = useState<Socket | null>(null);
     const [message, setMessage] = useState('');
     const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
+    const [receiverId, setReceiverId] = useState<number | null>(null)
 
     interface Message {
         content: string;
@@ -35,8 +36,8 @@ const Home = () => {
         if (socket && message.trim() !== '') {
           const newMessage = {
             content: message,
-            senderId: 123, // Replace with actual sender ID
-            receiverId: 456, // Replace with actual receiver ID
+            senderId: userId,
+            receiverId: receiverId
           };
           socket.emit('send-message', newMessage);
           setMessage('');
@@ -88,6 +89,10 @@ const Home = () => {
         setMessage(e.target.value)
     }
 
+    const handleReceiverId = (id: number) => {
+        setReceiverId(id)
+    }
+
     return(
         <>
             <div>dis da home page gang</div>
@@ -95,7 +100,7 @@ const Home = () => {
                 <select>
                 { users && users.map((user, index) => {
                 return(
-                    <option key={index}>{user.username}</option>
+                    <option key={index} value={user.id} onChange={() => handleReceiverId(user.id)}>{user.username}</option>
                 )
             })}
                 </select>
