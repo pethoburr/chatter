@@ -107,6 +107,7 @@ const Home = () => {
                 <label>Messge:
                     <input type='text' value={message} onChange={(e) => handleMsg(e)} alt='Enter message...' />
                 </label>
+                <button type='submit'>Send</button>
             </form>
              
         </>
