@@ -1,11 +1,47 @@
 import '../App.css';
-import { useEffect, useState, useContext } from 'react';
+import { useEffect, useState, useContext, ChangeEvent, FormEvent } from 'react';
 import { UserContext } from '../App';
+import io, { Socket } from 'socket.io-client';
 
 const Home = () => {
     const [chats, setChats] = useState([])
     const [users, setUsers] = useState<User[]>([])
     const { userId } = useContext(UserContext)
+    const [socket, setSocket] = useState<Socket | null>(null);
+    const [message, setMessage] = useState('');
+    const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
+
+    interface Message {
+        content: string;
+        senderId: number;
+        receiverId: number;
+    }
+
+    useEffect(() => {
+        const socket = io('http://localhost:3000');
+        setSocket(socket);
+    
+        socket.on('receive-message', (message) => {
+          setReceivedMessages((prevMessages) => [...prevMessages, message]);
+        });
+    
+        return () => {
+          socket.disconnect();
+        };
+      }, []);
+
+      const sendMessage = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        if (socket && message.trim() !== '') {
+          const newMessage = {
+            content: message,
+            senderId: 123, // Replace with actual sender ID
+            receiverId: 456, // Replace with actual receiver ID
+          };
+          socket.emit('send-message', newMessage);
+          setMessage('');
+        }
+      };
     
     const getChats = () => {
         fetch(`http://localhost:3000/rooms/${userId}`)
@@ -30,8 +66,9 @@ const Home = () => {
     }
 
     useEffect(() => {
-        console.log(`all users: ${JSON.stringify(users)}`)
-    },[chats])
+        console.log(`all messages: ${JSON.stringify(receivedMessages)}`)
+        console.log(`all chats: ${JSON.stringify(chats)}`)
+    },[receivedMessages, chats])
 
     useEffect(() => {
         console.log(`user id: ${userId}`)
@@ -47,17 +84,24 @@ const Home = () => {
         password: string
     }
 
+    const handleMsg = (e: ChangeEvent<HTMLInputElement>) => {
+        setMessage(e.target.value)
+    }
+
     return(
         <>
             <div>dis da home page gang</div>
-            <form>
+            <form onSubmit={(e) => sendMessage(e)}>
                 <select>
-                { chats && users.map((user, index) => {
+                { users && users.map((user, index) => {
                 return(
                     <option key={index}>{user.username}</option>
                 )
             })}
                 </select>
+                <label>Messge:
+                    <input type='text' value={message} onChange={(e) => handleMsg(e)} alt='Enter message...' />
+                </label>
             </form>
              
         </>
