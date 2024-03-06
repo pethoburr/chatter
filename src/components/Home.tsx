@@ -33,14 +33,20 @@ const Home = () => {
 
       const sendMessage = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        if (socket && message.trim() !== '') {
-          const newMessage = {
-            content: message,
-            sender_id: userId,
-            receiver_id: receiverId
-          };
-          socket.emit('send-message', newMessage);
-          setMessage('');
+        if (!userId) {
+            console.log('user id is null')
+            return;
+        } else {
+            const sender = parseInt(userId)
+            if (socket && message.trim() !== '') {
+                const newMessage: Message = {
+                  content: message,
+                  sender_id: sender,
+                  receiver_id: receiverId
+                };
+                socket.emit('send-message', newMessage);
+                setMessage('');
+              }
         }
       };
     
