@@ -14,8 +14,8 @@ const Home = () => {
 
     interface Message {
         content: string;
-        senderId: number;
-        receiverId: number;
+        sender_id: number;
+        receiver_id: number;
     }
 
     useEffect(() => {
@@ -36,8 +36,8 @@ const Home = () => {
         if (socket && message.trim() !== '') {
           const newMessage = {
             content: message,
-            senderId: userId,
-            receiverId: receiverId
+            sender_id: userId,
+            receiver_id: receiverId
           };
           socket.emit('send-message', newMessage);
           setMessage('');
