@@ -11,6 +11,7 @@ const Home = () => {
     const [message, setMessage] = useState('');
     const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
     const [receiverId, setReceiverId] = useState<number>(0)
+    const [receiverErr, setReceiverErr] = useState(false)
 
     interface Message {
         content: string;
@@ -39,6 +40,9 @@ const Home = () => {
         } else {
             const sender = parseInt(userId)
             if (socket && message.trim() !== '') {
+                if (receiverId === 0) {
+                    setReceiverErr(true)
+                }
                 const newMessage: Message = {
                   content: message,
                   sender_id: sender,
@@ -111,6 +115,7 @@ const Home = () => {
                 )
             })}
                 </select>
+                { receiverErr && <p>please select user ya donkey</p>}
                 <label>Messge:
                     <input type='text' value={message} onChange={(e) => handleMsg(e)} alt='Enter message...' />
                 </label>
