@@ -110,13 +110,14 @@ const Home = () => {
 
     const newRoom = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        console.log(`room name: ${roomName}`)
         fetch('http://localhost:3000/create-room', {
             mode: 'cors',
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(roomName)
+            body: JSON.stringify({ title: roomName })
         })
             .then((resp) => {
                 return resp.json()
@@ -146,8 +147,8 @@ const Home = () => {
             </form>
              <form onSubmit={(e) => newRoom(e)}>
                 <h1>new room form</h1>
-                <label>title:
-                    <input type='text' alt='Enter room name...' onChange={(e) => handleTitle(e)} />
+                <label htmlFor='title'>title:
+                    <input type='text' name='title' alt='Enter room name...' onChange={(e) => handleTitle(e)} />
                 </label>
                 <button type='submit'>Create</button>
              </form>
