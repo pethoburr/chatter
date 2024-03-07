@@ -12,6 +12,7 @@ const Home = () => {
     const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
     const [receiverId, setReceiverId] = useState<number>(0)
     const [receiverErr, setReceiverErr] = useState(false)
+    const [roomName, setRoomName] = useState('')
 
     interface Message {
         content: string;
@@ -78,7 +79,6 @@ const Home = () => {
 
     useEffect(() => {
         console.log(`all messages: ${JSON.stringify(receivedMessages)}`)
-        console.log(`all chats: ${JSON.stringify(chats)}`)
     },[receivedMessages, chats])
 
     useEffect(() => {
@@ -104,24 +104,53 @@ const Home = () => {
         setReceiverId(num)
     }
 
+    const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
+        setRoomName(e.target.value)
+    }
+
+    const newRoom = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        fetch('http://localhost:3000/create-room', {
+            mode: 'cors',
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(roomName)
+        })
+            .then((resp) => {
+                return resp.json()
+            })
+            .then((resp) => {
+                console.log(`create room response: ${resp}`)
+            })
+    }
+
     return(
         <>
             <div>dis da home page gang</div>
             <form onSubmit={(e) => sendMessage(e)}>
+                <h1>msg form</h1>
                 <select value={receiverId} onChange={(e) => handleReceiverId(e)}>
                 { users && users.map((user, index) => {
                 return(
                     <option key={index} value={user.id} >{user.username}</option>
                 )
-            })}
+                })}
                 </select>
-                { receiverErr && <p>please select user ya donkey</p>}
-                <label>Messge:
-                    <input type='text' value={message} onChange={(e) => handleMsg(e)} alt='Enter message...' />
+                { receiverErr && <p>please select user ya donkey</p> }
+                <label htmlFor='msg'>Messge:
+                    <input type='text' value={message} name='msg' onChange={(e) => handleMsg(e)} alt='Enter message...' />
                 </label>
                 <button type='submit'>Send</button>
             </form>
-             
+             <form onSubmit={(e) => newRoom(e)}>
+                <h1>new room form</h1>
+                <label>title:
+                    <input type='text' alt='Enter room name...' onChange={(e) => handleTitle(e)} />
+                </label>
+                <button type='submit'>Create</button>
+             </form>
         </>
     )
 }
