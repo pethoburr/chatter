@@ -42,15 +42,17 @@ const Home = () => {
             const sender = parseInt(userId)
             if (socket && message.trim() !== '') {
                 if (receiverId === 0) {
-                    setReceiverErr(true)
+                    setReceiverErr(true);
+                    return;
+                } else {
+                    const newMessage: Message = {
+                        content: message,
+                        sender_id: sender,
+                        receiver_id: receiverId
+                      };
+                      socket.emit('send-message', newMessage);
+                      setMessage('');
                 }
-                const newMessage: Message = {
-                  content: message,
-                  sender_id: sender,
-                  receiver_id: receiverId
-                };
-                socket.emit('send-message', newMessage);
-                setMessage('');
               }
         }
       };
@@ -118,7 +120,7 @@ const Home = () => {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({ title: roomName })
-        })
+            })
             .then((resp) => {
                 return resp.json()
             })
