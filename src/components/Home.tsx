@@ -113,7 +113,8 @@ const Home = () => {
     const newRoom = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         console.log(`room name: ${roomName}`)
-        fetch('http://localhost:3000/create-room', {
+        if (roomName !== '') {
+            fetch('http://localhost:3000/create-room', {
             mode: 'cors',
             method: 'POST',
             headers: {
@@ -127,6 +128,7 @@ const Home = () => {
             .then((resp) => {
                 console.log(`create room response: ${resp}`)
             })
+        }
     }
 
     return(
