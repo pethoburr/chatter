@@ -27,6 +27,8 @@ const Home = () => {
         socket.on('receive-message', (message) => {
           setReceivedMessages((prevMessages) => [...prevMessages, message]);
         });
+
+
     
         return () => {
           socket.disconnect();
@@ -81,6 +83,7 @@ const Home = () => {
 
     useEffect(() => {
         console.log(`all messages: ${JSON.stringify(receivedMessages)}`)
+        console.log(`all chats: ${JSON.stringify(chats)}`)
     },[receivedMessages, chats])
 
     useEffect(() => {
@@ -113,21 +116,16 @@ const Home = () => {
     const newRoom = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         console.log(`room name: ${roomName}`)
-        if (roomName !== '') {
-            fetch('http://localhost:3000/create-room', {
-            mode: 'cors',
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ title: roomName })
-            })
-            .then((resp) => {
-                return resp.json()
-            })
-            .then((resp) => {
-                console.log(`create room response: ${resp}`)
-            })
+        if (!userId) {
+            console.log('no user id')
+            return;
+        } else {
+            const sender = parseInt(userId)
+            console.log(`sender: ${sender}`)
+            if (socket && roomName !== '') {
+                socket.emit('create-room', roomName, userId)
+                setRoomName('')
+            }
         }
     }
 
