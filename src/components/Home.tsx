@@ -131,7 +131,7 @@ const Home = () => {
 
     return(
         <>
-            <div>dis da home page gang</div>
+            <div>dis da home page on gang</div>
             <form onSubmit={(e) => sendMessage(e)}>
                 <h1>msg form</h1>
                 <select value={receiverId} onChange={(e) => handleReceiverId(e)}>
