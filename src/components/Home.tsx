@@ -13,6 +13,8 @@ const Home = () => {
     const [receiverId, setReceiverId] = useState<number>(0)
     const [receiverErr, setReceiverErr] = useState(false)
     const [roomName, setRoomName] = useState('')
+    const [memberId, setMemberId] = useState('')
+    const [addedMembers, setAddedMembers] = useState<string[]>([])
 
     interface Message {
         content: string;
@@ -50,7 +52,7 @@ const Home = () => {
                     const newMessage: Message = {
                         content: message,
                         sender_id: sender,
-                        receiver_id: receiverId
+                        receiver_id: receiverId,
                       };
                       socket.emit('send-message', newMessage);
                       setMessage('');
@@ -112,6 +114,20 @@ const Home = () => {
     const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
         setRoomName(e.target.value)
     }
+    
+    const getUsername = (id: string) => {
+        const num = parseInt(id)
+        users.map((user) => {
+            if (user.id === num) {
+                setAddedMembers([...addedMembers, user.username])
+            }
+        })
+    }
+
+    const handleMembers = (e: ChangeEvent<HTMLSelectElement>) => {
+        setMemberId(e.target.value)
+        getUsername(e.target.value)
+    }
 
     const newRoom = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -158,6 +174,18 @@ const Home = () => {
                 <h1>new room form</h1>
                 <label htmlFor='title'>title:
                     <input type='text' name='title' alt='Enter room name...' onChange={(e) => handleTitle(e)} />
+                </label>
+                <label>Add users to group:
+                    <select value={memberId} onChange={(e) => handleMembers(e)}>
+                    { users && users.map((user, index) => {
+                    return(
+                        <option key={index} value={user.id} >{user.username}</option>
+                    )
+                    })}
+                    </select>
+                    { addedMembers && addedMembers.map((guy) => {
+                        return <div>{guy}</div>
+                    })}
                 </label>
                 <button type='submit'>Create</button>
              </form>
