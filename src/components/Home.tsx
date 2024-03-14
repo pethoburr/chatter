@@ -65,7 +65,7 @@ const Home = () => {
                 return resp.json();
             })
             .then((resp) => {
-                setChats(resp)
+                setChats(resp.roomNames)
                 return;
             })
     }
@@ -132,6 +132,13 @@ const Home = () => {
     return(
         <>
             <div>dis da home page das on gang</div>
+            { chats && chats.map((chat) => {
+                return(
+                    <>
+                        <button>{chat}</button>
+                    </>
+                )
+            })}
             <form onSubmit={(e) => sendMessage(e)}>
                 <h1>msg form</h1>
                 <select value={receiverId} onChange={(e) => handleReceiverId(e)}>
