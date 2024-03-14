@@ -129,6 +129,11 @@ const Home = () => {
         getUsername(e.target.value)
     }
 
+    const removeGuy = (guy: string) => {
+        const arr = addedMembers.filter(name => name !== guy)
+        setAddedMembers(arr)
+    }
+
     const newRoom = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         console.log(`room name: ${roomName}`)
@@ -139,7 +144,7 @@ const Home = () => {
             const sender = parseInt(userId)
             console.log(`sender: ${sender}`)
             if (socket && roomName !== '') {
-                socket.emit('create-room', roomName, userId)
+                socket.emit('create-room', roomName, userId, addedMembers)
                 setRoomName('')
             }
         }
@@ -184,7 +189,7 @@ const Home = () => {
                     })}
                     </select>
                     { addedMembers && addedMembers.map((guy) => {
-                        return <div>{guy}</div>
+                        return <div>{guy}<button onClick={() => removeGuy(guy)}>-</button></div>
                     })}
                 </label>
                 <button type='submit'>Create</button>
