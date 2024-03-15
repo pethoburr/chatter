@@ -3,8 +3,13 @@ import { useEffect, useState, useContext, ChangeEvent, FormEvent } from 'react';
 import { UserContext } from '../App';
 import io, { Socket } from 'socket.io-client';
 
+interface Chats {
+    id: number,
+    title: string
+}
+
 const Home = () => {
-    const [chats, setChats] = useState([])
+    const [chats, setChats] = useState<Chats[]>([])
     const [users, setUsers] = useState<User[]>([])
     const { userId } = useContext(UserContext)
     const [socket, setSocket] = useState<Socket | null>(null);
@@ -15,6 +20,7 @@ const Home = () => {
     const [roomName, setRoomName] = useState('')
     const [memberId, setMemberId] = useState('')
     const [addedMembers, setAddedMembers] = useState<string[]>([])
+    const [currentRoom, setCurrentRoom] = useState<number | null>(null)
 
     interface Message {
         content: string;
@@ -67,7 +73,7 @@ const Home = () => {
                 return resp.json();
             })
             .then((resp) => {
-                setChats(resp.roomNames)
+                setChats(resp.room)
                 return;
             })
     }
@@ -86,7 +92,8 @@ const Home = () => {
     useEffect(() => {
         console.log(`all messages: ${JSON.stringify(receivedMessages)}`)
         console.log(`all chats: ${JSON.stringify(chats)}`)
-    },[receivedMessages, chats])
+        console.log(`current room: ${currentRoom}`)
+    },[receivedMessages, chats, currentRoom])
 
     useEffect(() => {
         console.log(`user id: ${userId}`)
@@ -150,13 +157,17 @@ const Home = () => {
         }
     }
 
+    const changeRoom = (id: number | null) => {
+        setCurrentRoom(id)
+    }
+
     return(
         <>
             <div>dis da home page das on gang</div>
             { chats && chats.map((chat) => {
                 return(
                     <>
-                        <button>{chat}</button>
+                        <button onClick={() => changeRoom(chat.id)}>{chat.title}</button>
                     </>
                 )
             })}
