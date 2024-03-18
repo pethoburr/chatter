@@ -60,7 +60,7 @@ const Home = () => {
                         sender_id: sender,
                         receiver_id: receiverId,
                       };
-                      socket.emit('send-message', newMessage);
+                      socket.emit('send-message', newMessage, currentRoom);
                       setMessage('');
                 }
               }
