@@ -163,50 +163,18 @@ const Home = () => {
 
     return(
         <>
+            <div className="page">
             <div className='sidebar'>
-            { chats && chats.map((chat) => {
+                <div className="chats">
+                { chats && chats.map((chat) => {
                 return(
                     <>
                         <button onClick={() => changeRoom(chat.id)}>{chat.title}</button>
                     </>
                 )
             })}
+                </div>
             <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">+</button>
-            <form onSubmit={(e) => sendMessage(e)}>
-                <h1>msg form</h1>
-                <select value={receiverId} onChange={(e) => handleReceiverId(e)}>
-                { users && users.map((user, index) => {
-                return(
-                    <option key={index} value={user.id} >{user.username}</option>
-                )
-                })}
-                </select>
-                { receiverErr && <p>please select user ya donkey</p> }
-                <label htmlFor='msg'>Messge:
-                    <input type='text' value={message} name='msg' onChange={(e) => handleMsg(e)} alt='Enter message...' />
-                </label>
-                <button type='submit'>Send</button>
-            </form>
-             {/* <form onSubmit={(e) => newRoom(e)}>
-                <h1>new room form</h1>
-                <label htmlFor='title'>title:
-                    <input type='text' name='title' alt='Enter room name...' onChange={(e) => handleTitle(e)} />
-                </label>
-                <label>Add users to group:
-                    <select value={memberId} onChange={(e) => handleMembers(e)}>
-                    { users && users.map((user, index) => {
-                    return(
-                        <option key={index} value={user.id} >{user.username}</option>
-                    )
-                    })}
-                    </select>
-                    { addedMembers && addedMembers.map((guy) => {
-                        return <div>{guy}<button onClick={() => removeGuy(guy)}>-</button></div>
-                    })}
-                </label>
-                <button type='submit'>Create</button>
-             </form> */}
-
             <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div className="modal-dialog" role="document">
                 <div className="modal-content">
@@ -245,7 +213,25 @@ const Home = () => {
             </div>
             </div>
             </div>
-            
+            <div className="msgContainer">
+                <div>msgs...</div>
+                <form onSubmit={(e) => sendMessage(e)}>
+                    <h1>msg form</h1>
+                    <select value={receiverId} onChange={(e) => handleReceiverId(e)}>
+                    { users && users.map((user, index) => {
+                    return(
+                        <option key={index} value={user.id} >{user.username}</option>
+                    )
+                    })}
+                    </select>
+                    { receiverErr && <p>please select user ya donkey</p> }
+                    <label htmlFor='msg'>Messge:
+                        <input type='text' value={message} name='msg' onChange={(e) => handleMsg(e)} alt='Enter message...' />
+                    </label>
+                    <button type='submit'>Send</button>
+                </form>
+            </div>
+            </div>
         </>
     )
 }
