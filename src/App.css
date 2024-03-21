@@ -20,4 +20,15 @@
 
 .msgContainer {
   flex-grow: 2;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+}
+
+.msgs {
+  flex-grow: 2;
+}
+
+.msgForm {
+  flex-shrink: 1;
 }

@@ -172,7 +172,7 @@ const Home = () => {
                         <button onClick={() => changeRoom(chat.id)}>{chat.title}</button>
                     </>
                 )
-            })}
+                })}
                 </div>
             <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">+</button>
             <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -214,8 +214,8 @@ const Home = () => {
             </div>
             </div>
             <div className="msgContainer">
-                <div>msgs...</div>
-                <form onSubmit={(e) => sendMessage(e)}>
+                <div className='msgs'>msgs...</div>
+                <form className='msgForm' onSubmit={(e) => sendMessage(e)}>
                     <h1>msg form</h1>
                     <select value={receiverId} onChange={(e) => handleReceiverId(e)}>
                     { users && users.map((user, index) => {
