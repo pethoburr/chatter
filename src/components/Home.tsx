@@ -163,7 +163,7 @@ const Home = () => {
 
     return(
         <>
-            <div>dis da home page das on gang</div>
+            <div className='sidebar'>
             { chats && chats.map((chat) => {
                 return(
                     <>
@@ -171,6 +171,7 @@ const Home = () => {
                     </>
                 )
             })}
+            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">+</button>
             <form onSubmit={(e) => sendMessage(e)}>
                 <h1>msg form</h1>
                 <select value={receiverId} onChange={(e) => handleReceiverId(e)}>
@@ -186,7 +187,7 @@ const Home = () => {
                 </label>
                 <button type='submit'>Send</button>
             </form>
-             <form onSubmit={(e) => newRoom(e)}>
+             {/* <form onSubmit={(e) => newRoom(e)}>
                 <h1>new room form</h1>
                 <label htmlFor='title'>title:
                     <input type='text' name='title' alt='Enter room name...' onChange={(e) => handleTitle(e)} />
@@ -204,7 +205,47 @@ const Home = () => {
                     })}
                 </label>
                 <button type='submit'>Create</button>
-             </form>
+             </form> */}
+
+            <div className="modal fade" id="exampleModal" tabIndex={-1} role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div className="modal-dialog" role="document">
+                <div className="modal-content">
+                <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalLabel">New message</h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div className="modal-body">
+                    <form onSubmit={(e) => newRoom(e)}>
+                    <div className="form-group">
+                        <label htmlFor="message-text" className="col-form-label">Group Name:</label>
+                        <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="recipient-name" className="col-form-label">Recipients:</label>
+                        <select value={memberId} onChange={(e) => handleMembers(e)}>
+                        { users && users.map((user, index) => {
+                        return(
+                            <option key={index} value={user.id} >{user.username}</option>
+                        )
+                        })}
+                        { addedMembers && addedMembers.map((guy) => {
+                        return <div>{guy}<button onClick={() => removeGuy(guy)}>-</button></div>
+                    })}
+                    </select>
+                    </div>
+                    </form>
+                </div>
+                <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" className="btn btn-primary">Send message</button>
+                </div>
+                </div>
+            </div>
+            </div>
+            </div>
+            
         </>
     )
 }
