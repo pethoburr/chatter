@@ -216,7 +216,6 @@ const Home = () => {
             <div className="msgContainer">
                 <div className='msgs'>msgs...</div>
                 <form className='msgForm' onSubmit={(e) => sendMessage(e)}>
-                    <h1>msg form</h1>
                     <select value={receiverId} onChange={(e) => handleReceiverId(e)}>
                     { users && users.map((user, index) => {
                     return(
