@@ -235,13 +235,14 @@ const Home = () => {
             </div>
             </div>
             <div className="msgContainer">
-                <div className='msgs'>msgs...</div>
-                {messages.length > 0 && messages.map((oj) => (
-                    <div key={oj.id}>
-                        <p>{oj.content}</p>
-                        <p>{oj.timestamp.toLocaleString()}</p>
-                    </div>
-                ))}
+                {messages.length > 0 ? 
+                    messages.map((oj) => (
+                        <div className='msgs' key={oj.id}>
+                            <p>{oj.content}</p>
+                            <p>{oj.timestamp.toLocaleString()}</p>
+                        </div>
+                     )) : <p className='msgs'>no messages</p>
+                }
                 <form className='msgForm' onSubmit={(e) => sendMessage(e)}>
                     <select value={receiverId} onChange={(e) => handleReceiverId(e)}>
                     { users && users.map((user, index) => {

@@ -30,5 +30,6 @@
 }
 
 .msgForm {
+  justify-self: flex-end;
   flex-shrink: 1;
 }
