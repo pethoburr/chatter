@@ -43,6 +43,16 @@ const Home = () => {
         };
       }, []);
 
+      const getMsgs = async(id: number | null) => {
+        const resp = await fetch(`http://localhost:3000/get-messages/${id}`)
+        const jayed = resp.json()
+        console.log(`jayed out yo ${jayed}`)
+      }
+
+      useEffect(() => {
+        getMsgs(currentRoom)
+      },[currentRoom])
+
       const sendMessage = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (!userId) {
