@@ -236,8 +236,8 @@ const Home = () => {
             </div>
             <div className="msgContainer">
                 <div className='msgs'>msgs...</div>
-                {messages.length && messages.map((oj) => (
-                    <div>
+                {messages.length > 0 && messages.map((oj) => (
+                    <div key={oj.id}>
                         <p>{oj.content}</p>
                         <p>{oj.timestamp.toLocaleString()}</p>
                     </div>
