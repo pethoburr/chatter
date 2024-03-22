@@ -8,11 +8,21 @@ interface Chats {
     title: string
 }
 
+interface Msgs {
+    id: number,
+    sender_id: number,
+    receiver_id: number,
+    content: string,
+    room_id: number,
+    timestamp: Date
+}
+
 const Home = () => {
     const [chats, setChats] = useState<Chats[]>([])
     const [users, setUsers] = useState<User[]>([])
     const { userId } = useContext(UserContext)
     const [socket, setSocket] = useState<Socket | null>(null);
+    const [messages, setMessages] = useState<Msgs[]>([])
     const [message, setMessage] = useState('');
     const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
     const [receiverId, setReceiverId] = useState<number>(0)
@@ -45,8 +55,9 @@ const Home = () => {
 
       const getMsgs = async(id: number | null) => {
         const resp = await fetch(`http://localhost:3000/get-messages/${id}`)
-        const jayed = resp.json()
-        console.log(`jayed out yo ${jayed}`)
+        const jayed = await resp.json()
+        console.log(`jayed out yo ${JSON.stringify(jayed.msgs)}`)
+        setMessages(jayed.msgs)
       }
 
       useEffect(() => {
@@ -225,6 +236,12 @@ const Home = () => {
             </div>
             <div className="msgContainer">
                 <div className='msgs'>msgs...</div>
+                {messages.length && messages.map((oj) => (
+                    <div>
+                        <p>{oj.content}</p>
+                        <p>{oj.timestamp.toLocaleString()}</p>
+                    </div>
+                ))}
                 <form className='msgForm' onSubmit={(e) => sendMessage(e)}>
                     <select value={receiverId} onChange={(e) => handleReceiverId(e)}>
                     { users && users.map((user, index) => {
