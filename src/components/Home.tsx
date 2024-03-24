@@ -10,8 +10,6 @@ interface Chats {
 
 interface Msgs {
     id: number,
-    sender_id: number,
-    receiver_id: number,
     content: string,
     room_id: number,
     timestamp: Date
@@ -31,8 +29,8 @@ const Home = () => {
     const [currentRoom, setCurrentRoom] = useState<number | null>(null)
 
     interface Message {
-        content: string;
-        sender_id: number;
+        content: string,
+        user_id: number | null,
         room_id: number | null
     }
 
@@ -72,7 +70,7 @@ const Home = () => {
             if (socket && message.trim() !== '') {
                     const newMessage: Message = {
                         content: message,
-                        sender_id: sender,
+                        user_id: sender,
                         room_id: currentRoom
                       };
                       socket.emit('send-message', newMessage);
