@@ -25,8 +25,6 @@ const Home = () => {
     const [messages, setMessages] = useState<Msgs[]>([])
     const [message, setMessage] = useState('');
     const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
-    const [receiverId, setReceiverId] = useState<number>(0)
-    const [receiverErr, setReceiverErr] = useState(false)
     const [roomName, setRoomName] = useState('')
     const [memberId, setMemberId] = useState('')
     const [addedMembers, setAddedMembers] = useState<string[]>([])
@@ -35,7 +33,7 @@ const Home = () => {
     interface Message {
         content: string;
         sender_id: number;
-        receiver_id: number;
+        room_id: number | null
     }
 
     useEffect(() => {
@@ -72,21 +70,16 @@ const Home = () => {
         } else {
             const sender = parseInt(userId)
             if (socket && message.trim() !== '') {
-                if (receiverId === 0) {
-                    setReceiverErr(true);
-                    return;
-                } else {
                     const newMessage: Message = {
                         content: message,
                         sender_id: sender,
-                        receiver_id: receiverId,
+                        room_id: currentRoom
                       };
-                      socket.emit('send-message', newMessage, currentRoom);
+                      socket.emit('send-message', newMessage);
                       setMessage('');
                 }
               }
         }
-      };
     
     const getChats = () => {
         fetch(`http://localhost:3000/rooms/${userId}`)
@@ -132,11 +125,6 @@ const Home = () => {
 
     const handleMsg = (e: ChangeEvent<HTMLInputElement>) => {
         setMessage(e.target.value)
-    }
-
-    const handleReceiverId = (e: ChangeEvent<HTMLSelectElement>) => {
-        const num: number = parseInt(e.target.value)
-        setReceiverId(num)
     }
 
     const handleTitle = (e: ChangeEvent<HTMLInputElement>) => {
@@ -244,14 +232,6 @@ const Home = () => {
                      )) : <p className='msgs'>no messages</p>
                 }
                 <form className='msgForm' onSubmit={(e) => sendMessage(e)}>
-                    <select value={receiverId} onChange={(e) => handleReceiverId(e)}>
-                    { users && users.map((user, index) => {
-                    return(
-                        <option key={index} value={user.id} >{user.username}</option>
-                    )
-                    })}
-                    </select>
-                    { receiverErr && <p>please select user ya donkey</p> }
                     <label htmlFor='msg'>Messge:
                         <input type='text' value={message} name='msg' onChange={(e) => handleMsg(e)} alt='Enter message...' />
                     </label>
