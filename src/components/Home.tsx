@@ -194,7 +194,7 @@ const Home = () => {
                 <div className="modal-body">
                     <form onSubmit={(e) => newRoom(e)}>
                     <div className="form-group">
-                        <label htmlFor="message-text" className="col-form-label">Group Name:</label>
+                        <label htmlFor="message-text" className="col-form-label">Chat Name:</label>
                         <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
                     </div>
                     <div className="form-group">
@@ -202,13 +202,14 @@ const Home = () => {
                         <select value={memberId} onChange={(e) => handleMembers(e)}>
                         { users && users.map((user, index) => {
                         return(
-                            <option key={index} value={user.id} >{user.username}</option>
+                            <option key={index} value={user.id} ><div>{user.username}</div></option>
                         )
                         })}
-                        { addedMembers && addedMembers.map((guy) => {
+                        
+                    </select>
+                    { addedMembers && addedMembers.map((guy) => {
                         return <div>{guy}<button onClick={() => removeGuy(guy)}>-</button></div>
                     })}
-                    </select>
                     </div>
                     </form>
                 </div>
