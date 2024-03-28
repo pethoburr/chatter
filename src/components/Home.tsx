@@ -73,7 +73,7 @@ const Home = () => {
                         user_id: sender,
                         room_id: currentRoom
                       };
-                      socket.emit('send-message', newMessage, addedMembers);
+                      socket.emit('send-message', newMessage, roomName, addedMembers);
                       setMessage('');
                 }
               }
