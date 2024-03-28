@@ -15,6 +15,11 @@ interface Msgs {
     timestamp: Date
 }
 
+interface Members {
+    id: number,
+    name: string
+}
+
 const Home = () => {
     const [chats, setChats] = useState<Chats[]>([])
     const [users, setUsers] = useState<User[]>([])
@@ -25,7 +30,7 @@ const Home = () => {
     const [receivedMessages, setReceivedMessages] = useState<Message[]>([]);
     const [roomName, setRoomName] = useState('')
     const [memberId, setMemberId] = useState('')
-    const [addedMembers, setAddedMembers] = useState<string[]>([])
+    const [addedMembers, setAddedMembers] = useState<Members[]>([])
     const [currentRoom, setCurrentRoom] = useState<number | null>(null)
 
     interface Message {
@@ -133,7 +138,7 @@ const Home = () => {
         const num = parseInt(id)
         users.map((user) => {
             if (user.id === num) {
-                setAddedMembers([...addedMembers, user.username])
+                setAddedMembers([...addedMembers, { id: user.id, name: user.username}])
             }
         })
     }
@@ -143,8 +148,8 @@ const Home = () => {
         getUsername(e.target.value)
     }
 
-    const removeGuy = (guy: string) => {
-        const arr = addedMembers.filter(name => name !== guy)
+    const removeGuy = (guy: Members) => {
+        const arr = addedMembers.filter(dude => dude.name !== guy.name)
         setAddedMembers(arr)
     }
 
@@ -208,7 +213,7 @@ const Home = () => {
                         
                     </select>
                     { addedMembers && addedMembers.map((guy) => {
-                        return <div>{guy}<button onClick={() => removeGuy(guy)}>-</button></div>
+                        return <div>{guy.name}<button onClick={() => removeGuy(guy)}>-</button></div>
                     })}
                     </div>
                     </form>
