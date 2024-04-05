@@ -2,6 +2,7 @@ import '../App.css';
 import { useEffect, useState, useContext, ChangeEvent, FormEvent } from 'react';
 import { UserContext } from '../App';
 import io, { Socket } from 'socket.io-client';
+import { useNavigate } from 'react-router-dom';
 
 interface Chats {
     id: number,
@@ -32,6 +33,7 @@ const Home = () => {
     const [memberId, setMemberId] = useState('')
     const [addedMembers, setAddedMembers] = useState<Members[]>([])
     const [currentRoom, setCurrentRoom] = useState<number | null>(null)
+    const navigator = useNavigate()
 
     interface Message {
         content: string,
@@ -113,9 +115,13 @@ const Home = () => {
     },[receivedMessages, chats, currentRoom])
 
     useEffect(() => {
+        if (userId === null) {
+            navigator('/log-in')
+        }
         console.log(`user id: ${userId}`)
         getAllUsers()
         getChats()
+
     },[])
 
     interface User {
