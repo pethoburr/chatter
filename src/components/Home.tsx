@@ -23,7 +23,7 @@ interface Members {
 const Home = () => {
     const [chats, setChats] = useState<Chats[]>([])
     const [users, setUsers] = useState<User[]>([])
-    const { userId } = useContext(UserContext)
+    const { userId, logout } = useContext(UserContext)
     const [socket, setSocket] = useState<Socket | null>(null);
     const [messages, setMessages] = useState<Msgs[]>([])
     const [message, setMessage] = useState('');
@@ -176,6 +176,7 @@ const Home = () => {
     return(
         <>
             <div className="page">
+            <nav><button onClick={() => logout()}>logout</button></nav>
             <div className='sidebar'>
                 <div className="chats">
                 { chats && chats.map((chat) => {
