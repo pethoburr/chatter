@@ -59,7 +59,7 @@ const Home = () => {
       const getMsgs = async(id: number | null) => {
         const resp = await fetch(`http://localhost:3000/get-messages/${id}`)
         const jayed = await resp.json()
-        console.log(`jayed out yo ${JSON.stringify(jayed.msgs)}`)
+        console.log(`msgs: ${JSON.stringify(jayed.msgs)}`)
         setMessages(jayed.msgs)
       }
 
@@ -110,15 +110,12 @@ const Home = () => {
 
     useEffect(() => {
         console.log(`all messages: ${JSON.stringify(receivedMessages)}`)
-        console.log(`all chats: ${JSON.stringify(chats)}`)
-        console.log(`current room: ${currentRoom}`)
     },[receivedMessages, chats, currentRoom])
 
     useEffect(() => {
         if (userId === null) {
             navigator('/log-in')
         }
-        console.log(`user id: ${userId}`)
         getAllUsers()
         getChats()
 
@@ -161,15 +158,14 @@ const Home = () => {
 
     const newRoom = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        console.log(`room name: ${roomName}`)
+
         if (!userId) {
             console.log('no user id')
             return;
         } else {
             const sender = parseInt(userId)
-            console.log(`sender: ${sender}`)
             if (socket && roomName !== '') {
-                socket.emit('create-room', roomName, userId, addedMembers)
+                socket.emit('create-room', roomName, sender, addedMembers)
                 setRoomName('')
             }
         }
