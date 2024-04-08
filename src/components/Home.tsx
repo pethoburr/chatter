@@ -178,7 +178,7 @@ const Home = () => {
     return(
         <>
             <div className="page">
-            <nav><button onClick={() => logout()}>logout</button></nav>
+            <nav><button onClick={() => logout()}>Log out</button></nav>
             <div className='sidebar'>
                 <div className="chats">
                 { chats && chats.map((chat) => {
@@ -208,9 +208,9 @@ const Home = () => {
                     <div className="form-group">
                         <label htmlFor="recipient-name" className="col-form-label">Recipients:</label>
                         <select value={memberId} onChange={(e) => handleMembers(e)}>
-                        { users && users.map((user, index) => {
+                        { users && users.map((user) => {
                         return(
-                            <option key={index} value={user.id} ><div>{user.username}</div></option>
+                            <option key={user.id} value={user.id} ><div>{user.username}</div></option>
                         )
                         })}
                         
