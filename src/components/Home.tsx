@@ -223,7 +223,7 @@ const Home = () => {
                 </div>
                 <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" className="btn btn-primary">Send message</button>
+                    <button type="submit" className="btn btn-primary">Send</button>
                 </div>
                 </div>
             </div>
