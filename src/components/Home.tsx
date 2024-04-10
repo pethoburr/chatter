@@ -178,7 +178,7 @@ const Home = () => {
     return(
         <>
             <div className="page">
-            <nav><button onClick={() => logout()}>Log out</button></nav>
+            <nav className='navBar'><button className='logout' onClick={() => logout()}>Log out</button></nav>
             <div className='sidebar'>
                 <div className="chats">
                 { chats && chats.map((chat) => {
