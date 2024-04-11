@@ -46,6 +46,10 @@ const LogIn = () => {
     })
     }
 
+    const navSignup = () => {
+        navigate('/sign-up')
+    }
+
     
 
     return(
@@ -59,6 +63,7 @@ const LogIn = () => {
                     <input type='text' onChange={(e) => handlePassword(e)} />
                 </label>
                 <button type='submit'>Log In</button>
+                <p>Not a member?<button onClick={() => navSignup()}>Sign Up</button></p>
             </form>
         </>
     )

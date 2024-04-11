@@ -1,10 +1,12 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
     const [first_name, setFirstname] = useState('');
     const [last_name, setLastname] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate()
 
     const handleFirstname = (e: ChangeEvent<HTMLInputElement>) => {
         setFirstname(e.target.value)
@@ -38,6 +40,10 @@ const SignUp = () => {
         })
     }
 
+    const handleLogin = () => {
+        navigate('/log-in')
+    }
+
     return(
         <>
             <h1>Sign Up</h1>
@@ -55,6 +61,7 @@ const SignUp = () => {
                     <input type='text' value={password} onChange={(e) => handlePassword(e)} placeholder='Enter Password' />
                 </label>
                 <button type='submit'>Sign up</button>
+                <p>Already a member? <button onClick={() => handleLogin()}>Log In</button></p>
             </form>
         </>
     )
