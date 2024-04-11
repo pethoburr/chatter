@@ -181,11 +181,10 @@ const Home = () => {
             <nav className='navBar'><button className='logout' onClick={() => logout()}>Log out</button></nav>
             <div className='sidebar'>
                 <div className="chats">
-                { chats && chats.map((chat) => {
+                { chats && chats.map((chat, index) => {
                 return(
-                    <>
-                        <button onClick={() => changeRoom(chat.id)}>{chat.title}</button>
-                    </>
+                
+                        <button key={index}  onClick={() => changeRoom(chat.id)}>{chat.title}</button>
                 )
                 })}
                 </div>
@@ -210,7 +209,7 @@ const Home = () => {
                         <select value={memberId} onChange={(e) => handleMembers(e)}>
                         { users && users.map((user) => {
                         return(
-                            <option key={user.id} value={user.id} ><div>{user.username}</div></option>
+                            <option key={user.id} value={user.id} >{user.username}</option>
                         )
                         })}
                         
