@@ -37,6 +37,7 @@ const SignUp = () => {
             return resp.json()
         }).then((resp: Response) => {
             console.log(`client response: ${JSON.stringify(resp)}`)
+            navigate('/log-in')
         })
     }
 

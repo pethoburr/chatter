@@ -80,7 +80,7 @@ const Home = () => {
                         user_id: sender,
                         room_id: currentRoom
                       };
-                      socket.emit('send-message', newMessage, roomName, addedMembers);
+                      socket.emit('send-message', newMessage, roomName, addedMembers.length ? addedMembers : []);
                       setMessage('');
                 }
               }
@@ -175,10 +175,16 @@ const Home = () => {
         setCurrentRoom(id)
     }
 
+    const logOut = () => {
+        logout()
+        navigator('/log-in')
+    }
+
     return(
         <>
             <div className="page">
-            <nav className='navBar'><button className='logout' onClick={() => logout()}>Log out</button></nav>
+                <h1>Chatter</h1>
+                <nav className='navBar'><button className='logout' onClick={() => logOut()}>Log out</button></nav>
             <div className='sidebar'>
                 <div className="chats">
                 { chats && chats.map((chat, index) => {
