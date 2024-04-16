@@ -183,9 +183,10 @@ const Home = () => {
     return(
         <>
             <div className="page">
-                <h1>Chatter</h1>
-                <nav className='navBar'><button className='logout' onClick={() => logOut()}>Log out</button></nav>
-            <div className='sidebar'>
+                
+                <nav className='navBar'><h1>Chatter</h1><button className='logout' onClick={() => logOut()}>Log out</button></nav>
+                <div className="chatNbar">
+                <div className='sidebar'>
                 <div className="chats">
                 { chats && chats.map((chat, index) => {
                 return(
@@ -234,6 +235,7 @@ const Home = () => {
             </div>
             </div>
             </div>
+            <div className="msgNform">
             <div className="msgContainer">
                 {messages.length > 0 ? 
                     messages.map((oj) => (
@@ -243,14 +245,18 @@ const Home = () => {
                         </div>
                      )) : <p className='msgs'>no messages</p>
                 }
-                <form className='msgForm' onSubmit={(e) => sendMessage(e)}>
+            </div>
+            <form className='msgForm' onSubmit={(e) => sendMessage(e)}>
                     <label htmlFor='msg'>Messge:
                         <input type='text' value={message} name='msg' onChange={(e) => handleMsg(e)} alt='Enter message...' />
                     </label>
                     <button type='submit'>Send</button>
                 </form>
             </div>
+                </div>
+            
             </div>
+            
         </>
     )
 }

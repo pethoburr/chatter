@@ -1,7 +1,21 @@
 .page {
   display: flex;
+  flex-direction: column;
   width: 97vw;
   height: 100vh;
+}
+
+.chatNbar {
+  display: flex;
+}
+
+.navBar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.msgNform {
+  width: 100%;
 }
 
 .sidebar {
@@ -13,7 +27,7 @@
 .chats {
   display: flex;
   flex-direction: column;
-  max-height: 90vh;
+  height: 80vh;
   overflow-y: scroll;
   margin-bottom: 1rem;
 }
@@ -22,7 +36,8 @@
   flex-grow: 2;
   display: flex;
   flex-direction: column;
-  height: 100vh;
+  height: 80vh;
+  overflow-y: scroll;
 }
 
 .msgs {
