@@ -12,7 +12,7 @@ interface Chats {
 interface Msgs {
     id: number,
     content: string,
-    room_id: number,
+    room_id: number | null,
     timestamp: Date
 }
 
@@ -81,6 +81,13 @@ const Home = () => {
                         room_id: currentRoom
                       };
                       socket.emit('send-message', newMessage, roomName, addedMembers.length ? addedMembers : []);
+                      setMessages(prev =>  [
+                        ...prev, { id: 69,
+                        content: message,
+                        room_id: currentRoom,
+                        timestamp: new Date ()
+                    }
+                    ] )
                       setMessage('');
                 }
               }
@@ -183,7 +190,6 @@ const Home = () => {
     return(
         <>
             <div className="page">
-                
                 <nav className='navBar'><h1>Chatter</h1><button className='logout' onClick={() => logOut()}>Log out</button></nav>
                 <div className="chatNbar">
                 <div className='sidebar'>
