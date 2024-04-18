@@ -23,6 +23,7 @@ interface Members {
 
 const Home = () => {
     const [chats, setChats] = useState<Chats[]>([])
+    const [switcher, setSwitcher] = useState(false)
     const [users, setUsers] = useState<User[]>([])
     const { userId, logout } = useContext(UserContext)
     const [socket, setSocket] = useState<Socket | null>(null);
@@ -44,12 +45,9 @@ const Home = () => {
     useEffect(() => {
         const socket = io('http://localhost:3000');
         setSocket(socket);
-    
         socket.on('receive-message', (message) => {
           setReceivedMessages((prevMessages) => [...prevMessages, message]);
         });
-
-
     
         return () => {
           socket.disconnect();
@@ -80,6 +78,7 @@ const Home = () => {
                         user_id: sender,
                         room_id: currentRoom
                       };
+                      console.log("currentRoom" + currentRoom)
                       socket.emit('send-message', newMessage, roomName, addedMembers.length ? addedMembers : []);
                       setMessages(prev =>  [
                         ...prev, { id: 69,
@@ -165,7 +164,6 @@ const Home = () => {
 
     const newRoom = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-
         if (!userId) {
             console.log('no user id')
             return;
@@ -185,6 +183,14 @@ const Home = () => {
     const logOut = () => {
         logout()
         navigator('/log-in')
+    }
+
+    const switcheroo = () => {
+        if (!switcher) {
+            setSwitcher(true)
+        } else {
+            setSwitcher(false)
+        }
     }
 
     return(
@@ -213,6 +219,7 @@ const Home = () => {
                 </div>
                 <div className="modal-body">
                     <form onSubmit={(e) => newRoom(e)}>
+                    <button onClick={() => switcheroo()}>Create new group</button>
                     <div className="form-group">
                         <label htmlFor="message-text" className="col-form-label">Chat Name:</label>
                         <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
@@ -231,12 +238,13 @@ const Home = () => {
                         return <div>{guy.name}<button onClick={() => removeGuy(guy)}>-</button></div>
                     })}
                     </div>
-                    </form>
-                </div>
-                <div className="modal-footer">
+                    <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="submit" className="btn btn-primary">Send</button>
                 </div>
+                    </form>
+                </div>
+                
                 </div>
             </div>
             </div>
@@ -253,14 +261,13 @@ const Home = () => {
                 }
             </div>
             <form className='msgForm' onSubmit={(e) => sendMessage(e)}>
-                    <label htmlFor='msg'>Messge:
+                    <label htmlFor='msg'>Message:
                         <input type='text' value={message} name='msg' onChange={(e) => handleMsg(e)} alt='Enter message...' />
                     </label>
                     <button type='submit'>Send</button>
                 </form>
             </div>
                 </div>
-            
             </div>
             
         </>
