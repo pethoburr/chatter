@@ -229,47 +229,48 @@ const Home = () => {
                 <div className="modal-body">
                     <button onClick={() => switcheroo()}>{ switcher ? 'New chat' : 'New group' }</button>
                     { switcher ? 
-                        <form onSubmit={(e) => sendMessage(e)}>
-                           <div className="form-group">
-                        <label htmlFor="recipient-name" className="col-form-label">Recipients:</label>
-                        <select value={memberId} onChange={(e) => handleMembers(e)}>
-                        { users && users.map((user) => {
-                        return(
-                            <option key={user.id} value={user.id} >{user.username}</option>
-                        )
-                        })}
-                        
-                    </select>
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="message-text" className="col-form-label">Enter message:</label>
-                        <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
-                    </div>
-                        </form> :
                         <form onSubmit={(e) => newRoom(e)}>
-                    <div className="form-group">
-                        <label htmlFor="message-text" className="col-form-label">Chat Name:</label>
-                        <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="recipient-name" className="col-form-label">Recipients:</label>
-                        <select value={memberId} onChange={(e) => handleMembers(e)}>
-                        { users && users.map((user) => {
-                        return(
-                            <option key={user.id} value={user.id} >{user.username}</option>
-                        )
+                        <div className="form-group">
+                            <label htmlFor="message-text" className="col-form-label">Chat Name:</label>
+                            <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="recipient-name" className="col-form-label">Recipients:</label>
+                            <select value={memberId} onChange={(e) => handleMembers(e)}>
+                            { users && users.map((user) => {
+                            return(
+                                <option key={user.id} value={user.id} >{user.username}</option>
+                            )
+                            })}
+                            
+                        </select>
+                        { addedMembers && addedMembers.map((guy) => {
+                            return <div>{guy.name}<button onClick={() => removeGuy(guy)}>-</button></div>
                         })}
-                        
-                    </select>
-                    { addedMembers && addedMembers.map((guy) => {
-                        return <div>{guy.name}<button onClick={() => removeGuy(guy)}>-</button></div>
-                    })}
+                        </div>
+                        <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" className="btn btn-primary">Send</button>
                     </div>
-                    <div className="modal-footer">
-                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" className="btn btn-primary">Send</button>
-                </div>
-                    </form>
+                        </form>
+                         :
+                         <form onSubmit={(e) => sendMessage(e)}>
+                         <div className="form-group">
+                      <label htmlFor="recipient-name" className="col-form-label">Recipient:</label>
+                      <select value={memberId} onChange={(e) => handleMembers(e)}>
+                      { users && users.map((user) => {
+                      return(
+                          <option key={user.id} value={user.id} >{user.username}</option>
+                      )
+                      })}
+                      
+                  </select>
+                  </div>
+                  <div className="form-group">
+                      <label htmlFor="message-text" className="col-form-label">Enter message:</label>
+                      <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
+                  </div>
+                      </form>
                     }
                 </div>
                 
