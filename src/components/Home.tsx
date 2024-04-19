@@ -172,6 +172,14 @@ const Home = () => {
             if (socket && roomName !== '') {
                 socket.emit('create-room', roomName, sender, addedMembers)
                 setRoomName('')
+                const modal = document.getElementById('exampleModal');
+                if (modal) {
+                    modal.classList.remove('show');
+                    modal.setAttribute('aria-hidden', 'true');
+                    modal.setAttribute('style', 'display: none');
+                    const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
+                    modalBackdrop.parentNode?.removeChild(modalBackdrop);
+                }
             }
         }
     }
