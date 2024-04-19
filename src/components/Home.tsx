@@ -171,6 +171,7 @@ const Home = () => {
             const sender = parseInt(userId)
             if (socket && roomName !== '') {
                 socket.emit('create-room', roomName, sender, addedMembers)
+                setChats((prev) => [...prev, { id: 69, title: 'newChat'}])
                 setRoomName('')
                 const modal = document.getElementById('exampleModal');
                 if (modal) {
@@ -226,8 +227,26 @@ const Home = () => {
                     </button>
                 </div>
                 <div className="modal-body">
-                    <form onSubmit={(e) => newRoom(e)}>
-                    <button onClick={() => switcheroo()}>Create new group</button>
+                    <button onClick={() => switcheroo()}>{ switcher ? 'New chat' : 'New group' }</button>
+                    { switcher ? 
+                        <form onSubmit={(e) => sendMessage(e)}>
+                           <div className="form-group">
+                        <label htmlFor="recipient-name" className="col-form-label">Recipients:</label>
+                        <select value={memberId} onChange={(e) => handleMembers(e)}>
+                        { users && users.map((user) => {
+                        return(
+                            <option key={user.id} value={user.id} >{user.username}</option>
+                        )
+                        })}
+                        
+                    </select>
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="message-text" className="col-form-label">Enter message:</label>
+                        <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
+                    </div>
+                        </form> :
+                        <form onSubmit={(e) => newRoom(e)}>
                     <div className="form-group">
                         <label htmlFor="message-text" className="col-form-label">Chat Name:</label>
                         <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
@@ -251,6 +270,7 @@ const Home = () => {
                     <button type="submit" className="btn btn-primary">Send</button>
                 </div>
                     </form>
+                    }
                 </div>
                 
                 </div>
