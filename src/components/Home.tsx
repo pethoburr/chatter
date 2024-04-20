@@ -231,7 +231,7 @@ const Home = () => {
                     { switcher ? 
                         <form onSubmit={(e) => newRoom(e)}>
                         <div className="form-group">
-                            <label htmlFor="message-text" className="col-form-label">Chat Name:</label>
+                            <label htmlFor="message-text" className="col-form-label">Group Name:</label>
                             <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
                         </div>
                         <div className="form-group">
