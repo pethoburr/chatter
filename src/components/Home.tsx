@@ -270,6 +270,10 @@ const Home = () => {
                       <label htmlFor="message-text" className="col-form-label">Enter message:</label>
                       <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
                   </div>
+                  <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" className="btn btn-primary">Send</button>
+                    </div>
                       </form>
                     }
                 </div>
