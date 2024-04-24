@@ -79,7 +79,7 @@ const Home = () => {
                         room_id: currentRoom
                       };
                       console.log("currentRoom" + currentRoom)
-                      socket.emit('send-message', newMessage, roomName, addedMembers.length ? addedMembers : []);
+                      socket.emit('send-message', newMessage, roomName ? roomName : 'chat', addedMembers.length ? addedMembers : []);
                       setMessages(prev =>  [
                         ...prev, { id: 69,
                         content: message,
@@ -87,6 +87,14 @@ const Home = () => {
                         timestamp: new Date ()
                     }
                     ] )
+                    const modal = document.getElementById('exampleModal');
+                    if (modal) {
+                        modal.classList.remove('show');
+                        modal.setAttribute('aria-hidden', 'true');
+                        modal.setAttribute('style', 'display: none');
+                        const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
+                        modalBackdrop.parentNode?.removeChild(modalBackdrop);
+                    }
                       setMessage('');
                 }
               }
@@ -169,7 +177,7 @@ const Home = () => {
             return;
         } else {
             const sender = parseInt(userId)
-            if (socket && roomName !== '') {
+            if (socket !== null) {
                 socket.emit('create-room', roomName, sender, addedMembers)
                 setChats((prev) => [...prev, { id: 69, title: 'newChat'}])
                 setRoomName('')
@@ -268,7 +276,7 @@ const Home = () => {
                   </div>
                   <div className="form-group">
                       <label htmlFor="message-text" className="col-form-label">Enter message:</label>
-                      <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
+                      <input type='text' className="form-control" id="message-text" value={message} onChange={(e) => handleMsg(e)} />
                   </div>
                   <div className="modal-footer">
                         <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
