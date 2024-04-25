@@ -95,7 +95,8 @@ const Home = () => {
                         const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
                         modalBackdrop.parentNode?.removeChild(modalBackdrop);
                     }
-                      setMessage('');
+                    if (!roomName)
+                    setMessage('');
                 }
               }
         }
@@ -210,6 +211,16 @@ const Home = () => {
         }
     }
 
+    const newMessage = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        newRoom(e)
+        sendMessage(e)
+    }
+
+    const save_room = (username: string) => {
+        setRoomName(username)
+    }
+
     return(
         <>
             <div className="page">
@@ -262,13 +273,13 @@ const Home = () => {
                     </div>
                         </form>
                          :
-                         <form onSubmit={(e) => sendMessage(e)}>
+                         <form onSubmit={(e) => newMessage(e)}>
                          <div className="form-group">
                       <label htmlFor="recipient-name" className="col-form-label">Recipient:</label>
                       <select value={memberId} onChange={(e) => handleMembers(e)}>
                       { users && users.map((user) => {
                       return(
-                          <option key={user.id} value={user.id} >{user.username}</option>
+                          <option key={user.id} value={user.id} onClick={() => save_room(user.username)} >{user.username}</option>
                       )
                       })}
                       
