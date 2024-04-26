@@ -35,6 +35,7 @@ const Home = () => {
     const [addedMembers, setAddedMembers] = useState<Members[]>([])
     const [currentRoom, setCurrentRoom] = useState<number | null>(null)
     const navigator = useNavigate()
+    const [newMsg, setNewMsg] = useState(false)
 
     interface Message {
         content: string,
@@ -79,7 +80,7 @@ const Home = () => {
                         room_id: currentRoom
                       };
                       console.log("currentRoom" + currentRoom)
-                      socket.emit('send-message', newMessage, roomName ? roomName : 'chat', addedMembers.length ? addedMembers : []);
+                      socket.emit('send-message', newMessage, roomName, addedMembers.length ? addedMembers : []);
                       setMessages(prev =>  [
                         ...prev, { id: 69,
                         content: message,
@@ -211,15 +212,51 @@ const Home = () => {
         }
     }
 
-    const newMessage = (e: FormEvent<HTMLFormElement>) => {
+    const newMessage = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        users.map((user) => {
+            if (user.id === addedMembers[0].id) {
+                console.log(`matched: ${user.username}`)
+                setRoomName(user.username)
+            }
+        })
         newRoom(e)
-        sendMessage(e)
+        const res = await fetch('http://localhost:3000/last-room')
+        const jayed = await res.json()
+        console.log(`last room: ${jayed}`)
+        setCurrentRoom(jayed)
+        setNewMsg(true)
     }
 
-    const save_room = (username: string) => {
-        setRoomName(username)
-    }
+    useEffect(() => {
+        if (newMsg) {
+            console.log(`use effected: ${currentRoom}`)
+            if (!userId) {
+                console.log('user id is null')
+                return;
+            } else {
+                const sender = parseInt(userId)
+                if (socket !== null) {
+                        const newMessage: Message = {
+                            content: message,
+                            user_id: sender,
+                            room_id: currentRoom
+                          };
+                          console.log("currentRoom" + currentRoom)
+                          socket.emit('send-message', newMessage, roomName, addedMembers.length ? addedMembers : []);
+                          setMessages(prev =>  [
+                            ...prev, { id: 69,
+                            content: message,
+                            room_id: currentRoom,
+                            timestamp: new Date ()
+                        }
+                        ] )
+                        if (!roomName)
+                        setMessage('');
+                    }
+                  }
+        }
+    },[currentRoom, newMsg])
 
     return(
         <>
@@ -279,7 +316,7 @@ const Home = () => {
                       <select value={memberId} onChange={(e) => handleMembers(e)}>
                       { users && users.map((user) => {
                       return(
-                          <option key={user.id} value={user.id} onClick={() => save_room(user.username)} >{user.username}</option>
+                          <option key={user.id} value={user.id} >{user.username}</option>
                       )
                       })}
                       
