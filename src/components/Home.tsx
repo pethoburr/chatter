@@ -250,13 +250,13 @@ const Home = () => {
                             room_id: currentRoom,
                             timestamp: new Date ()
                         }
-                        ] )
+                        ])
                         if (!roomName)
                         setMessage('');
                     }
                   }
         }
-    },[currentRoom, newMsg])
+    },[currentRoom, newMsg, addedMembers, message, roomName, socket, userId])
 
     return(
         <>
@@ -358,7 +358,6 @@ const Home = () => {
             </div>
                 </div>
             </div>
-            
         </>
     )
 }
