@@ -172,7 +172,7 @@ const Home = () => {
         setAddedMembers(arr)
     }
 
-    const newRoom = (e: FormEvent<HTMLFormElement>) => {
+    const newRoom = (e: FormEvent<HTMLFormElement>, name: string) => {
         e.preventDefault()
         if (!userId) {
             console.log('no user id')
@@ -180,7 +180,8 @@ const Home = () => {
         } else {
             const sender = parseInt(userId)
             if (socket !== null) {
-                socket.emit('create-room', roomName, sender, addedMembers)
+                console.log(`roomName: ${roomName}, sender: ${sender}, addedMembers: ${JSON.stringify(addedMembers)}`)
+                socket.emit('create-room', roomName !== '' ? roomName : name, sender, addedMembers)
                 setChats((prev) => [...prev, { id: 69, title: 'newChat'}])
                 setRoomName('')
                 const modal = document.getElementById('exampleModal');
@@ -218,9 +219,9 @@ const Home = () => {
             if (user.id === addedMembers[0].id) {
                 console.log(`matched: ${user.username}`)
                 setRoomName(user.username)
+                newRoom(e, user.username)
             }
         })
-        newRoom(e)
         const res = await fetch('http://localhost:3000/last-room')
         const jayed = await res.json()
         console.log(`last room: ${jayed}`)
@@ -285,7 +286,7 @@ const Home = () => {
                 <div className="modal-body">
                     <button onClick={() => switcheroo()}>{ switcher ? 'New chat' : 'New group' }</button>
                     { switcher ? 
-                        <form onSubmit={(e) => newRoom(e)}>
+                        <form onSubmit={(e) => newRoom(e, 'nada')}>
                         <div className="form-group">
                             <label htmlFor="message-text" className="col-form-label">Group Name:</label>
                             <input type='text' className="form-control" id="message-text" onChange={(e) => handleTitle(e)} />
