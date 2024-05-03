@@ -245,6 +245,7 @@ const Home = () => {
                           };
                           console.log("currentRoom" + currentRoom)
                           socket.emit('send-message', newMessage, roomName, addedMembers.length ? addedMembers : []);
+                          fetch(`https://localhost:3000/get-messages/${currentRoom}`).then(resp => resp.json()).then(resp => console.log(`messages: ${JSON.stringify(resp)}`))
                           setMessages(prev =>  [
                             ...prev, { id: 69,
                             content: message,
