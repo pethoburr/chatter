@@ -253,7 +253,6 @@ const Home = () => {
                             timestamp: new Date ()
                         }
                         ])
-                        if (!roomName)
                         setMessage('');
                     }
                   }
