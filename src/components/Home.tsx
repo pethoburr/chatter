@@ -182,7 +182,7 @@ const Home = () => {
             if (socket !== null) {
                 console.log(`roomName: ${roomName}, sender: ${sender}, addedMembers: ${JSON.stringify(addedMembers)}`)
                 socket.emit('create-room', roomName !== '' ? roomName : name, sender, addedMembers)
-                setChats((prev) => [...prev, { id: 69, title: 'newChat'}])
+                setChats((prev) => [...prev, { id: 69, title: name}])
                 setRoomName('')
                 const modal = document.getElementById('exampleModal');
                 if (modal) {
@@ -262,7 +262,7 @@ const Home = () => {
     return(
         <>
             <div className="page">
-                <nav className='navBar'><h1>Chatter</h1><button className='logout' onClick={() => logOut()}>Log out</button></nav>
+                <nav className='navBar'><h1>Thiscord</h1><button className='logout' onClick={() => logOut()}>Log out</button></nav>
                 <div className="chatNbar">
                 <div className='sidebar'>
                 <div className="chats">
@@ -299,7 +299,6 @@ const Home = () => {
                                 <option key={user.id} value={user.id} >{user.username}</option>
                             )
                             })}
-                            
                         </select>
                         { addedMembers && addedMembers.map((guy) => {
                             return <div>{guy.name}<button onClick={() => removeGuy(guy)}>-</button></div>
