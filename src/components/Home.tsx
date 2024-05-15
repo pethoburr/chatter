@@ -88,6 +88,7 @@ const Home = () => {
                         timestamp: new Date ()
                     }
                     ])
+                    setMessage('');
                     const modal = document.getElementById('exampleModal');
                     if (modal) {
                         modal.classList.remove('show');
@@ -96,8 +97,7 @@ const Home = () => {
                         const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
                         modalBackdrop.parentNode?.removeChild(modalBackdrop);
                     }
-                    if (!roomName)
-                    setMessage('');
+                    
                 }
               }
         }
@@ -226,13 +226,6 @@ const Home = () => {
                 newRoom(e, user.username)
             }
         })
-        // if (socket !== null) {
-        //     socket.on('created-room', (room) => {
-        //         setCurrentRoom(room.id)
-        //         console.log(`room id here: ${room.id}`)
-        //         setChats((prev) => [...prev, room])
-        //     } )
-        // }
         setNewMsg(true)
     }
 
