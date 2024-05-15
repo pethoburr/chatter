@@ -87,7 +87,7 @@ const Home = () => {
                         room_id: currentRoom,
                         timestamp: new Date ()
                     }
-                    ] )
+                    ])
                     const modal = document.getElementById('exampleModal');
                     if (modal) {
                         modal.classList.remove('show');
@@ -182,7 +182,6 @@ const Home = () => {
             if (socket !== null) {
                 console.log(`roomName: ${roomName}, sender: ${sender}, addedMembers: ${JSON.stringify(addedMembers)}`)
                 socket.emit('create-room', roomName !== '' ? roomName : name, sender, addedMembers)
-                setChats((prev) => [...prev, { id: 69, title: name}])
                 setRoomName('')
                 const modal = document.getElementById('exampleModal');
                 if (modal) {
@@ -222,15 +221,18 @@ const Home = () => {
                 newRoom(e, user.username)
             }
         })
-        const res = await fetch('http://localhost:3000/last-room')
-        const jayed = await res.json()
-        console.log(`last room: ${jayed}`)
-        setCurrentRoom(jayed)
+        if (socket !== null) {
+            socket.on('created-room', (room) => {
+                setCurrentRoom(room.id)
+                console.log(`room id here: ${room.id}`)
+                setChats((prev) => [...prev, room])
+            } )
+        }
         setNewMsg(true)
     }
 
     useEffect(() => {
-        if (newMsg) {
+        if (newMsg && currentRoom) {
             console.log(`use effected: ${currentRoom}`)
             if (!userId) {
                 console.log('user id is null')
@@ -244,8 +246,8 @@ const Home = () => {
                             room_id: currentRoom
                           };
                           console.log("currentRoom" + currentRoom)
+                          console.log(`added members: ${addedMembers}`)
                           socket.emit('send-message', newMessage, roomName, addedMembers.length ? addedMembers : []);
-                          fetch(`https://localhost:3000/get-messages/${currentRoom}`).then(resp => resp.json()).then(resp => console.log(`messages: ${JSON.stringify(resp)}`))
                           setMessages(prev =>  [
                             ...prev, { id: 69,
                             content: message,
@@ -268,7 +270,6 @@ const Home = () => {
                 <div className="chats">
                 { chats && chats.map((chat, index) => {
                 return(
-                
                         <button key={index}  onClick={() => changeRoom(chat.id)}>{chat.title}</button>
                 )
                 })}
