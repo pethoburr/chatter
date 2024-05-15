@@ -182,6 +182,11 @@ const Home = () => {
             if (socket !== null) {
                 console.log(`roomName: ${roomName}, sender: ${sender}, addedMembers: ${JSON.stringify(addedMembers)}`)
                 socket.emit('create-room', roomName !== '' ? roomName : name, sender, addedMembers)
+                    socket.on('created-room', (room) => {
+                        setCurrentRoom(room.id)
+                        console.log(`room id here: ${room.id}`)
+                        setChats((prev) => [...prev, room])
+                    } )
                 setRoomName('')
                 const modal = document.getElementById('exampleModal');
                 if (modal) {
@@ -221,13 +226,13 @@ const Home = () => {
                 newRoom(e, user.username)
             }
         })
-        if (socket !== null) {
-            socket.on('created-room', (room) => {
-                setCurrentRoom(room.id)
-                console.log(`room id here: ${room.id}`)
-                setChats((prev) => [...prev, room])
-            } )
-        }
+        // if (socket !== null) {
+        //     socket.on('created-room', (room) => {
+        //         setCurrentRoom(room.id)
+        //         console.log(`room id here: ${room.id}`)
+        //         setChats((prev) => [...prev, room])
+        //     } )
+        // }
         setNewMsg(true)
     }
 
