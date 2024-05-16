@@ -39,7 +39,8 @@ const LogIn = () => {
         console.log(`resp: ${JSON.stringify(resp)}`)
         if (resp.user.id) {
             localStorage.setItem('userId', resp.user.id)
-            login(resp.user.id)
+            localStorage.setItem('token', resp.token)
+            login(resp.user.id, resp.token)
             console.log('here')
             navigate('/')
         }

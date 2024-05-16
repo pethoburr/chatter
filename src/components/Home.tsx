@@ -246,8 +246,8 @@ const Home = () => {
                           console.log("currentRoom" + currentRoom)
                           console.log(`added members: ${addedMembers}`)
                           socket.emit('send-message', newMessage, roomName, addedMembers.length ? addedMembers : []);
-                          setMessages(prev =>  [
-                            ...prev, { id: 69,
+                          setMessages([
+                            { id: 69,
                             content: message,
                             room_id: currentRoom,
                             timestamp: new Date ()
