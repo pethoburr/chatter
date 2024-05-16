@@ -25,7 +25,7 @@ const Home = () => {
     const [chats, setChats] = useState<Chats[]>([])
     const [switcher, setSwitcher] = useState(false)
     const [users, setUsers] = useState<User[]>([])
-    const { userId, logout } = useContext(UserContext)
+    const { userId, token, logout } = useContext(UserContext)
     const [socket, setSocket] = useState<Socket | null>(null);
     const [messages, setMessages] = useState<Msgs[]>([])
     const [message, setMessage] = useState('');
@@ -56,7 +56,9 @@ const Home = () => {
       }, []);
 
       const getMsgs = async(id: number | null) => {
-        const resp = await fetch(`http://localhost:3000/get-messages/${id}`)
+        const resp = await fetch(`http://localhost:3000/get-messages/${id}`, {  headers: {
+            'Authorization': `Bearer ${token}`
+        }})
         const jayed = await resp.json()
         console.log(`msgs: ${JSON.stringify(jayed.msgs)}`)
         setMessages(jayed.msgs)
@@ -103,7 +105,11 @@ const Home = () => {
         }
     
     const getChats = () => {
-        fetch(`http://localhost:3000/rooms/${userId}`)
+        fetch(`http://localhost:3000/rooms/${userId}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then((resp) => {
                 return resp.json();
             })
@@ -114,7 +120,11 @@ const Home = () => {
     }
 
     const getAllUsers = () => {
-        fetch('http://localhost:3000/users')
+        fetch('http://localhost:3000/users', {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
             .then((resp) => {
                 return resp.json();
             })
@@ -354,7 +364,7 @@ const Home = () => {
                     </label>
                     <button type='submit'>Send</button>
                 </form>
-            </div>
+            </div> 
                 </div>
             </div>
         </>
