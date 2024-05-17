@@ -55,6 +55,17 @@ const Home = () => {
         };
       }, []);
 
+      const closeModal = () => {
+        const modal = document.getElementById('exampleModal');
+                    if (modal) {
+                        modal.classList.remove('show');
+                        modal.setAttribute('aria-hidden', 'true');
+                        modal.setAttribute('style', 'display: none');
+                        const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
+                        modalBackdrop.parentNode?.removeChild(modalBackdrop);
+                    }
+      }
+
       const getMsgs = async(id: number | null) => {
         const resp = await fetch(`http://localhost:3000/get-messages/${id}`, {  headers: {
             'Authorization': `Bearer ${token}`
@@ -91,15 +102,7 @@ const Home = () => {
                     }
                     ])
                     setMessage('');
-                    const modal = document.getElementById('exampleModal');
-                    if (modal) {
-                        modal.classList.remove('show');
-                        modal.setAttribute('aria-hidden', 'true');
-                        modal.setAttribute('style', 'display: none');
-                        const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
-                        modalBackdrop.parentNode?.removeChild(modalBackdrop);
-                    }
-                    
+                    closeModal()
                 }
               }
         }
@@ -196,6 +199,7 @@ const Home = () => {
                         setCurrentRoom(room.id)
                         console.log(`room id here: ${room.id}`)
                         setChats((prev) => [...prev, room])
+                        setNewMsg(true)
                     } )
                 setRoomName('')
                 const modal = document.getElementById('exampleModal');
@@ -235,7 +239,6 @@ const Home = () => {
                 newRoom(e, user.username)
             }
         })
-        setNewMsg(true)
     }
 
     useEffect(() => {
@@ -261,10 +264,11 @@ const Home = () => {
                         }
                         ])
                         setMessage('');
+                        setNewMsg(false)
                     }
                   }
         }
-    },[currentRoom, newMsg, addedMembers, message, roomName, socket, userId])
+    },[currentRoom, newMsg])
 
     return(
         <>
