@@ -117,7 +117,9 @@ const Home = () => {
                 return resp.json();
             })
             .then((resp) => {
-                setChats(resp.room)
+                const unique: Chats[] = [...new Set(resp.room as Chats[])]
+                setChats(unique)
+                // setChats(resp.room)
                 return;
             })
     }
@@ -147,7 +149,6 @@ const Home = () => {
         }
         getAllUsers()
         getChats()
-
     },[])
 
     interface User {
@@ -202,17 +203,15 @@ const Home = () => {
                         setNewMsg(true)
                     } )
                 setRoomName('')
-                const modal = document.getElementById('exampleModal');
-                if (modal) {
-                    modal.classList.remove('show');
-                    modal.setAttribute('aria-hidden', 'true');
-                    modal.setAttribute('style', 'display: none');
-                    const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
-                    modalBackdrop.parentNode?.removeChild(modalBackdrop);
-                }
+                setAddedMembers([])
+                closeModal()
             }
         }
     }
+
+    useEffect(() => {
+        console.log(`current room: ${currentRoom}`)
+    },[currentRoom])
 
     const changeRoom = (id: number | null) => {
         setCurrentRoom(id)
@@ -242,7 +241,7 @@ const Home = () => {
     }
 
     useEffect(() => {
-        if (newMsg && currentRoom) {
+        if (newMsg) {
             if (!userId) {
                 console.log('user id is null')
                 return;
@@ -268,7 +267,7 @@ const Home = () => {
                     }
                   }
         }
-    },[currentRoom, newMsg])
+    },[newMsg])
 
     return(
         <>
