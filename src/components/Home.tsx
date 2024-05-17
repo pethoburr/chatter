@@ -231,7 +231,6 @@ const Home = () => {
         e.preventDefault()
         users.map((user) => {
             if (user.id === addedMembers[0].id) {
-                console.log(`matched: ${user.username}`)
                 setRoomName(user.username)
                 newRoom(e, user.username)
             }
@@ -241,7 +240,6 @@ const Home = () => {
 
     useEffect(() => {
         if (newMsg && currentRoom) {
-            console.log(`use effected: ${currentRoom}`)
             if (!userId) {
                 console.log('user id is null')
                 return;
@@ -254,7 +252,6 @@ const Home = () => {
                             room_id: currentRoom
                           };
                           console.log("currentRoom" + currentRoom)
-                          console.log(`added members: ${addedMembers}`)
                           socket.emit('send-message', newMessage, roomName, addedMembers.length ? addedMembers : []);
                           setMessages([
                             { id: 69,
