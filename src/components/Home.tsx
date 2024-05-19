@@ -256,13 +256,13 @@ const Home = () => {
                           console.log("currentRoom" + currentRoom)
                           socket.emit('send-message', newMessage, roomName, addedMembers.length ? addedMembers : []);
                           setMessages([
-                            { id: 69,
+                            { id: sender,
                             content: message,
                             room_id: currentRoom,
                             timestamp: new Date ()
                         }
                         ])
-                        setMessage('');
+                        setMessage('')
                         setNewMsg(false)
                     }
                   }
