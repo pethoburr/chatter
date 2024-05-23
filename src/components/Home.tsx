@@ -197,6 +197,7 @@ const Home = () => {
                 console.log(`roomName: ${roomName}, sender: ${sender}, addedMembers: ${JSON.stringify(addedMembers)}`)
                 socket.emit('create-room', roomName !== '' ? roomName : name, sender, addedMembers)
                     socket.on('created-room', (room) => {
+                        console.log(`called`)
                         setCurrentRoom(room.id)
                         console.log(`room id here: ${room.id}`)
                         setChats((prev) => [...prev, room])
@@ -232,10 +233,11 @@ const Home = () => {
 
     const newMessage = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        users.map((user) => {
+        users.forEach((user) => {
             if (user.id === addedMembers[0].id) {
                 setRoomName(user.username)
                 newRoom(e, user.username)
+                return;
             }
         })
     }
@@ -263,6 +265,7 @@ const Home = () => {
                         }
                         ])
                         setMessage('')
+                        setAddedMembers([])
                         setNewMsg(false)
                     }
                   }
