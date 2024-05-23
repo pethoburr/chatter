@@ -117,9 +117,7 @@ const Home = () => {
                 return resp.json();
             })
             .then((resp) => {
-                const unique: Chats[] = [...new Set(resp.room as Chats[])]
-                setChats(unique)
-                // setChats(resp.room)
+                setChats(resp.room)
                 return;
             })
     }
@@ -196,13 +194,14 @@ const Home = () => {
             if (socket !== null) {
                 console.log(`roomName: ${roomName}, sender: ${sender}, addedMembers: ${JSON.stringify(addedMembers)}`)
                 socket.emit('create-room', roomName !== '' ? roomName : name, sender, addedMembers)
-                    socket.on('created-room', (room) => {
-                        console.log(`called`)
-                        setCurrentRoom(room.id)
-                        console.log(`room id here: ${room.id}`)
-                        setChats((prev) => [...prev, room])
-                        setNewMsg(true)
-                    } )
+                socket.off('created-room')
+                socket.on('created-room', (room) => {
+                    console.log(`called room: ${JSON.stringify(room)}`)
+                    setCurrentRoom(room.id)
+                    console.log(`room id here: ${room.id}`)
+                    setChats((prev) => [...prev, room])
+                    setNewMsg(true)
+                } )
                 setRoomName('')
                 setAddedMembers([])
                 closeModal()
@@ -233,13 +232,23 @@ const Home = () => {
 
     const newMessage = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        users.forEach((user) => {
-            if (user.id === addedMembers[0].id) {
-                setRoomName(user.username)
-                newRoom(e, user.username)
-                return;
+        // users.some((user) => {
+        //     if (user.id === addedMembers[0].id) {
+        //         setRoomName(user.username)
+        //         newRoom(e, user.username)
+        //         return true;
+        //     }
+        // })
+        let username = '';
+        for (let i = 0; i < users.length; i++) {
+            if (users[i].id === addedMembers[0].id) {
+                username = users[i].username
+                break;
             }
-        })
+        }
+        console.log('called in new msg')
+        setRoomName(username)
+        newRoom(e, username)
     }
 
     useEffect(() => {
