@@ -36,6 +36,7 @@ const Home = () => {
     const [currentRoom, setCurrentRoom] = useState<number | null>(null)
     const navigator = useNavigate()
     const [newMsg, setNewMsg] = useState(false)
+    const [firsty, setFirsty] = useState(false)
 
     interface Message {
         content: string,
@@ -76,7 +77,11 @@ const Home = () => {
       }
 
       useEffect(() => {
-        getMsgs(currentRoom)
+        if (!firsty) {
+            getMsgs(currentRoom)
+        } else {
+            setFirsty(false)
+        }
       },[currentRoom])
 
       const sendMessage = (e: FormEvent<HTMLFormElement>) => {
@@ -118,6 +123,7 @@ const Home = () => {
             })
             .then((resp) => {
                 setChats(resp.room)
+                console.log(`this bitch right hurr: ${JSON.stringify(resp.room)}`)
                 return;
             })
     }
@@ -194,20 +200,20 @@ const Home = () => {
             if (socket !== null) {
                 console.log(`roomName: ${roomName}, sender: ${sender}, addedMembers: ${JSON.stringify(addedMembers)}`)
                 socket.emit('create-room', roomName !== '' ? roomName : name, sender, addedMembers)
-                socket.off('created-room')
-                socket.on('created-room', (room) => {
+                socket.once('created-room', (room) => {
                     console.log(`called room: ${JSON.stringify(room)}`)
                     setCurrentRoom(room.id)
-                    console.log(`room id here: ${room.id}`)
                     setChats((prev) => [...prev, room])
                     setNewMsg(true)
-                } )
+                })
                 setRoomName('')
                 setAddedMembers([])
                 closeModal()
             }
         }
     }
+
+
 
     useEffect(() => {
         console.log(`current room: ${currentRoom}`)
@@ -232,13 +238,6 @@ const Home = () => {
 
     const newMessage = async(e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
-        // users.some((user) => {
-        //     if (user.id === addedMembers[0].id) {
-        //         setRoomName(user.username)
-        //         newRoom(e, user.username)
-        //         return true;
-        //     }
-        // })
         let username = '';
         for (let i = 0; i < users.length; i++) {
             if (users[i].id === addedMembers[0].id) {
@@ -247,6 +246,17 @@ const Home = () => {
             }
         }
         console.log('called in new msg')
+        let sender = 0
+        if (userId) { sender = parseInt(userId) }
+        console.log(`ayo ${sender} wats happenin ${message}`)
+            setMessages([
+                { id: sender,
+                content: message,
+                room_id: currentRoom,
+                timestamp: new Date ()
+            }
+            ])
+            setFirsty(true)
         setRoomName(username)
         newRoom(e, username)
     }
@@ -266,13 +276,6 @@ const Home = () => {
                           };
                           console.log("currentRoom" + currentRoom)
                           socket.emit('send-message', newMessage, roomName, addedMembers.length ? addedMembers : []);
-                          setMessages([
-                            { id: sender,
-                            content: message,
-                            room_id: currentRoom,
-                            timestamp: new Date ()
-                        }
-                        ])
                         setMessage('')
                         setAddedMembers([])
                         setNewMsg(false)
