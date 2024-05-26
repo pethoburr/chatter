@@ -261,6 +261,14 @@ const Home = () => {
         newRoom(e, username)
     }
 
+    const leaveGroup = () => {
+        console.log(currentRoom)
+    }
+
+    const invite = () => {
+        console.log(userId)
+    }
+
     useEffect(() => {
         if (newMsg) {
             if (!userId) {
@@ -364,6 +372,7 @@ const Home = () => {
             </div>
             <div className="msgNform">
             <div className="msgContainer">
+            <button onClick={() => leaveGroup()}>Leave Group</button><button onClick={() => invite()}>Invite</button>
                 {messages.length > 0 ? 
                     messages.map((oj) => (
                         <div className='msgs' key={oj.id}>
