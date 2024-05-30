@@ -372,7 +372,7 @@ const Home = () => {
             </div>
             <div className="msgNform">
             <div className="msgContainer">
-            <button onClick={() => leaveGroup()}>Leave Group</button><button onClick={() => invite()}>Invite</button>
+           { currentRoom && <><button onClick={() => leaveGroup()}>Leave Group</button><button onClick={() => invite()}>Invite</button></>} 
                 {messages.length > 0 ? 
                     messages.map((oj) => (
                         <div className='msgs' key={oj.id}>
