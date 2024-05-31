@@ -262,7 +262,13 @@ const Home = () => {
     }
 
     const leaveGroup = () => {
-        console.log(currentRoom)
+        if (socket !== null) {
+            chats.map((chat) => {
+                if (chat.id === currentRoom) {
+                    socket.emit('join-room', chat.title)
+                }
+            })
+        }
     }
 
     const invite = () => {
