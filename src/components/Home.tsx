@@ -291,6 +291,15 @@ const Home = () => {
     const invite = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         console.log(`user: ${userId}, added in invite: ${JSON.stringify(addedMembers)}`)
+        if (socket !== null) {
+            chats.forEach((chat) => {
+                if (chat.id === currentRoom) {
+                    addedMembers.forEach((id) => {
+                        socket.emit('join-room', chat.title, id, chat.id)
+                    })
+                }
+            })
+        }
         closeInviteModal()
     }
 
