@@ -266,7 +266,7 @@ const Home = () => {
             chats.map((chat) => {
                 if (chat.id === currentRoom) {
                     const guy = parseInt(userId)
-                    socket.emit('leave-room', chat.title, guy)
+                    socket.emit('leave-room', chat.title, guy, chat.id)
                 }
             })
         }
