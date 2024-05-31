@@ -267,6 +267,9 @@ const Home = () => {
                 if (chat.id === currentRoom) {
                     const guy = parseInt(userId)
                     socket.emit('leave-room', chat.title, guy, chat.id)
+                    const updated = chats.filter(chat => chat.id !== currentRoom)
+                    console.log(`updated: ${updated}`)
+                    setChats(updated)
                 }
             })
         }
