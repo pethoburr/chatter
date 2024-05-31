@@ -262,10 +262,11 @@ const Home = () => {
     }
 
     const leaveGroup = () => {
-        if (socket !== null) {
+        if (socket !== null && userId !== null) {
             chats.map((chat) => {
                 if (chat.id === currentRoom) {
-                    socket.emit('join-room', chat.title)
+                    const guy = parseInt(userId)
+                    socket.emit('leave-room', chat.title, guy)
                 }
             })
         }
