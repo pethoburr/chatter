@@ -270,6 +270,8 @@ const Home = () => {
                     const updated = chats.filter(chat => chat.id !== currentRoom)
                     console.log(`updated: ${updated}`)
                     setChats(updated)
+                    setCurrentRoom(null)
+                    setMessages([])
                 }
             })
         }
