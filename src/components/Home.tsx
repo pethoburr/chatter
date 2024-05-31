@@ -67,6 +67,17 @@ const Home = () => {
                     }
       }
 
+      const closeInviteModal = () => {
+        const modal = document.getElementById('inviteModal');
+                    if (modal) {
+                        modal.classList.remove('show');
+                        modal.setAttribute('aria-hidden', 'true');
+                        modal.setAttribute('style', 'display: none');
+                        const modalBackdrop = document.getElementsByClassName('modal-backdrop')[0];
+                        modalBackdrop.parentNode?.removeChild(modalBackdrop);
+                    }
+      }
+
       const getMsgs = async(id: number | null) => {
         const resp = await fetch(`http://localhost:3000/get-messages/${id}`, {  headers: {
             'Authorization': `Bearer ${token}`
@@ -277,8 +288,10 @@ const Home = () => {
         }
     }
 
-    const invite = () => {
-        console.log(userId)
+    const invite = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault()
+        console.log(`user: ${userId}, added in invite: ${JSON.stringify(addedMembers)}`)
+        closeInviteModal()
     }
 
     useEffect(() => {
@@ -384,7 +397,44 @@ const Home = () => {
             </div>
             <div className="msgNform">
             <div className="msgContainer">
-           { currentRoom && <><button onClick={() => leaveGroup()}>Leave Group</button><button onClick={() => invite()}>Invite</button></>} 
+           { currentRoom && (
+            <>
+                <button onClick={() => leaveGroup()}>Leave Group</button>
+<button type="button" className="btn btn-primary" data-toggle="modal" data-target="#inviteModal">
+  Invite
+</button>
+<div className="modal fade" id="inviteModal" tabIndex={-1} aria-labelledby="inviteModalLabel" aria-hidden="true">
+  <div className="modal-dialog">
+    <div className="modal-content">
+      <div className="modal-header">
+        <h1 className="modal-title fs-5" id="inviteModalLabel">Select user</h1>
+        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div className="modal-body">
+      <form onSubmit={(e) => invite(e)}>
+                        <div className="form-group">
+                            <label htmlFor="recipient-name" className="col-form-label">Recipients:</label>
+                            <select value={memberId} onChange={(e) => handleMembers(e)}>
+                            { users && users.map((user) => {
+                            return(
+                                <option key={user.id} value={user.id} >{user.username}</option>
+                            )
+                            })}
+                        </select>
+                        { addedMembers && addedMembers.map((guy) => {
+                            return <div>{guy.name}<button onClick={() => removeGuy(guy)}>-</button></div>
+                        })}
+                        </div>
+                        <div className="modal-footer">
+                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" className="btn btn-primary">Add</button>
+                    </div>
+                        </form>
+      </div>
+    </div>
+  </div>
+</div>
+            </>)} 
                 {messages.length > 0 ? 
                     messages.map((oj) => (
                         <div className='msgs' key={oj.id}>
