@@ -38,7 +38,7 @@ const Home = () => {
     const [newMsg, setNewMsg] = useState(false)
     const [firsty, setFirsty] = useState(false)
     const [newInv, setNewInv] = useState(false)
-    const [invId, setInvId] = useState(0)
+    const [invId, setInvId] = useState(null)
     const [invTitle, setInvTitle] = useState(false)
     const [invPpl, setInvPpl] = useState<string[]>([])
     const [invited, setInvited] = useState([])
@@ -325,7 +325,7 @@ const Home = () => {
                     addedMembers.forEach(async (id) => {
                         const resp = await fetch(`https://localhost:3000/get-name/${id}`)
                         const jayed: string = await resp.json()
-                        invPpl.push(jayed)
+                        setInvPpl((prev) => [...prev, jayed])
                     })
                     socket.emit('invite', chat.id, chat.title, invPpl)
                 }
@@ -337,6 +337,10 @@ const Home = () => {
 
     const handleJoiner = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
+        if (yesCheck && !noCheck && socket !== null && userId) {
+            const sender = parseInt(userId)
+            socket.emit('join-room', invTitle, sender, invId)
+        }   
     }
 
     useEffect(() => {
