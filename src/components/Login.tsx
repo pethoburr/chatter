@@ -12,6 +12,8 @@ const LogIn = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
     const { login } = useContext(UserContext)
+    const [passErr, setPassErr] = useState(false)
+    const [usernameErr, setUsernameErr] = useState(false)
 
     const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value)
@@ -37,14 +39,19 @@ const LogIn = () => {
         return resp.json();
     }).then((resp) => {
         console.log(`resp: ${JSON.stringify(resp)}`)
-        if (resp.user.id) {
+        if (resp.user) {
             localStorage.setItem('userId', resp.user.id)
             localStorage.setItem('token', resp.token)
             login(resp.user.id, resp.token)
             console.log('here')
             navigate('/')
         }
-    })
+        if (resp.message === 'Incorrect password') {
+            setPassErr(true)
+        }
+        if (resp.message === 'Incorrect username') {
+        setUsernameErr(true)
+    }})
     }
 
     const navSignup = () => {
@@ -60,9 +67,11 @@ const LogIn = () => {
                 <label>Username:
                     <input type='text' onChange={(e) => handleUsername(e)} />
                 </label>
+                { usernameErr && <p className='userErr'>Incorrect username</p>}
                 <label>Password:
                     <input type='password' onChange={(e) => handlePassword(e)} />
                 </label>
+                { passErr && <p className='passErr'>Incorrect password</p>}
                 <button type='submit'>Log In</button>
                 <p>Not a member?<button onClick={() => navSignup()}>Sign Up</button></p>
             </form>
