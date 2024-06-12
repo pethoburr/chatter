@@ -241,8 +241,6 @@ const Home = () => {
         }
     }
 
-
-
     useEffect(() => {
         console.log(`current room: ${currentRoom}`)
     },[currentRoom])
@@ -334,7 +332,7 @@ const Home = () => {
         }
         closeInviteModal()
     }
-
+  
     const handleJoiner = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
         if (yesCheck && !noCheck && socket !== null && userId) {

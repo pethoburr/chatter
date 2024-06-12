@@ -61,7 +61,7 @@ const LogIn = () => {
                     <input type='text' onChange={(e) => handleUsername(e)} />
                 </label>
                 <label>Password:
-                    <input type='text' onChange={(e) => handlePassword(e)} />
+                    <input type='password' onChange={(e) => handlePassword(e)} />
                 </label>
                 <button type='submit'>Log In</button>
                 <p>Not a member?<button onClick={() => navSignup()}>Sign Up</button></p>
