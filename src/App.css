@@ -29,6 +29,59 @@
   flex-shrink: 1;
 }
 
+.avatar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3rem;
+  background-color: green;
+  text-align: center;
+  width: 4rem;
+  cursor: pointer;
+}
+
+li {
+  text-align: center;
+}
+
+.dropdown {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  width: 10rem;
+}
+
+.dropdown-menu {
+  display: block;
+  position: absolute;
+  background-color: #f9f9f9;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  top: 100%;
+  right: 0;
+}
+
+.dropdown-menu ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu ul li {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  color: black;
+}
+
+.dropdown-menu ul li:hover {
+  background-color: #f1f1f1;
+}
+
+.navRight {
+  display: flex;
+}
+
 .chats {
   display: flex;
   flex-direction: column;

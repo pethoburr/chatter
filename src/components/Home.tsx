@@ -44,6 +44,7 @@ const Home = () => {
     const [invited, setInvited] = useState([])
     const [yesCheck, setYesCheck] = useState(false)
     const [noCheck, setNoCheck] = useState(false)
+    const [isOpen, setIsOpen] = useState(false)
 
     interface Message {
         content: string,
@@ -364,10 +365,31 @@ const Home = () => {
         }
     },[newMsg])
 
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen)
+    }
+
     return(
         <>
             <div className="page">
-                <nav className='navBar'><h1>Thiscord</h1><button className='logout' onClick={() => logOut()}>Log out</button></nav>
+                <nav className='navBar'>
+                    <h1>Thiscord</h1>
+                    <div className='navRight'>
+                        
+                        <div className='dropdown'>
+                            <button onClick={toggleDropdown} className='avatar'>MP</button>
+                            { isOpen && (
+                                <div className='dropdown-menu'>
+                                    <ul>
+                                        <li>Profile</li>
+                                        <li>Settings</li>
+                                    </ul>
+                                </div>
+                            )}
+                        </div>
+                        <button className='logout' onClick={() => logOut()}>Log out</button>
+                    </div>
+                </nav>
                 <div className="chatNbar">
                 <div className='sidebar'>
                 <div className="chats">
