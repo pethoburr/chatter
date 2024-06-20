@@ -4,6 +4,7 @@ import { createContext, useState } from 'react';
 import './App.css'
 import SignUp from './components/SignUp';
 import LogIn from './components/Login';
+import Profile from './components/Profile';
 
 export const UserContext = createContext<{ userId: string | null, token: string | null, login: (param1: string, param2: string) => void, logout: () => void }>({
   userId: null,
@@ -42,6 +43,10 @@ function App() {
     {
       path: '/log-in',
       element: <LogIn />
+    },
+    {
+      path: '/profile/:userId',
+      element: <Profile />
     }
   ])
 

@@ -369,6 +369,13 @@ const Home = () => {
         setIsOpen(!isOpen)
     }
 
+    const prof = () => {
+        if (userId !== null) {
+            const sender = parseInt(userId)
+            navigator(`/profile/${sender}`)
+        }  
+    }
+
     return(
         <>
             <div className="page">
@@ -381,7 +388,7 @@ const Home = () => {
                             { isOpen && (
                                 <div className='dropdown-menu'>
                                     <ul>
-                                        <li>Profile</li>
+                                        <li onClick={prof}>Profile</li>
                                         <li>Settings</li>
                                     </ul>
                                 </div>
