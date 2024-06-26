@@ -3,6 +3,7 @@ import { useEffect, useState, useContext, ChangeEvent, FormEvent } from 'react';
 import { UserContext } from '../App';
 import io, { Socket } from 'socket.io-client';
 import { useNavigate } from 'react-router-dom';
+import Nav from './Nav';
 
 interface Chats {
     id: number,
@@ -25,7 +26,7 @@ const Home = () => {
     const [chats, setChats] = useState<Chats[]>([])
     const [switcher, setSwitcher] = useState(false)
     const [users, setUsers] = useState<User[]>([])
-    const { userId, token, logout } = useContext(UserContext)
+    const { userId, token } = useContext(UserContext)
     const [socket, setSocket] = useState<Socket | null>(null);
     const [messages, setMessages] = useState<Msgs[]>([])
     const [message, setMessage] = useState('');
@@ -44,7 +45,6 @@ const Home = () => {
     const [invited, setInvited] = useState([])
     const [yesCheck, setYesCheck] = useState(false)
     const [noCheck, setNoCheck] = useState(false)
-    const [isOpen, setIsOpen] = useState(false)
 
     interface Message {
         content: string,
@@ -250,10 +250,7 @@ const Home = () => {
         setCurrentRoom(id)
     }
 
-    const logOut = () => {
-        logout()
-        navigator('/log-in')
-    }
+ 
 
     const switcheroo = () => {
         if (!switcher) {
@@ -365,38 +362,12 @@ const Home = () => {
         }
     },[newMsg])
 
-    const toggleDropdown = () => {
-        setIsOpen(!isOpen)
-    }
-
-    const prof = () => {
-        if (userId !== null) {
-            const sender = parseInt(userId)
-            navigator(`/profile/${sender}`)
-        }  
-    }
+    
 
     return(
         <>
             <div className="page">
-                <nav className='navBar'>
-                    <h1>Thiscord</h1>
-                    <div className='navRight'>
-                        
-                        <div className='dropdown'>
-                            <button onClick={toggleDropdown} className='avatar'>MP</button>
-                            { isOpen && (
-                                <div className='dropdown-menu'>
-                                    <ul>
-                                        <li onClick={prof}>Profile</li>
-                                        <li>Settings</li>
-                                    </ul>
-                                </div>
-                            )}
-                        </div>
-                        <button className='logout' onClick={() => logOut()}>Log out</button>
-                    </div>
-                </nav>
+                <Nav />
                 <div className="chatNbar">
                 <div className='sidebar'>
                 <div className="chats">
