@@ -40,6 +40,20 @@
   cursor: pointer;
 }
 
+.profileContainer {
+  display: flex;
+  flex-direction: column;
+  width: 98vw;
+  height: 100vh;
+  justify-content: space-between;
+}
+
+.profilePage {
+  display: flex;
+  width: 98vw;
+  height: 80vh;
+}
+
 li {
   text-align: center;
 }
