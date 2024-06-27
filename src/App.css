@@ -45,13 +45,44 @@
   flex-direction: column;
   width: 98vw;
   height: 100vh;
-  justify-content: space-between;
 }
 
 .profilePage {
   display: flex;
+  justify-content: center;
+  align-items: center;
   width: 98vw;
   height: 80vh;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  border: 2px solid lightgray;
+  list-style: none;
+  gap: 2rem;
+  border-radius: 1rem;
+  padding-left: 0;
+  width: 25rem;
+  height: 25rem;
+  justify-content: center;
+  margin: 0;
+}
+
+.infoItem {
+  padding-bottom: 2rem;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.infoItem:hover {
+  color: blue;
+}
+
+.infoItem:not(:last-child) {
+  border-bottom: 2px solid lightgray;
 }
 
 li {

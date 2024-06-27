@@ -31,9 +31,11 @@ const Profile = () => {
             <div className="profileContianer">
                 <Nav />
                 <div className='profilePage'>
-                    <div>First name: {userObj.first_name}</div>
-                    <div>Last name: {userObj.last_name}</div>
-                    <div>Username: {userObj.username}</div>
+                    <ul className='profileInfo'>
+                        <li className='infoItem'>First name: {userObj.first_name}</li>
+                        <li className='infoItem'>Last name: {userObj.last_name}</li>
+                        <li className='infoItem'>Username: {userObj.username}</li>
+                    </ul>
                 </div>
 
             </div>
