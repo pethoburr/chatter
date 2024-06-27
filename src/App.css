@@ -9,6 +9,10 @@
   display: flex;
 }
 
+.logout {
+  width: max-content;
+}
+
 .navBar {
   display: flex;
   justify-content: space-between;
@@ -75,6 +79,29 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.settingsContainer {
+  display: flex;
+  flex-direction: column;
+  width: 98vw;
+  height: 100vh;
+}
+
+.settingsContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.backButton {
+  width: max-content;
+}
+
+.navListItem {
+  cursor: pointer;
 }
 
 .infoItem:hover {

@@ -35,8 +35,8 @@ const Nav = () => {
                             { isOpen && (
                                 <div className='dropdown-menu'>
                                     <ul>
-                                        <li onClick={prof}>Profile</li>
-                                        <li onClick={goToSettings}>Settings</li>
+                                        <li className='navListItem' onClick={prof}>Profile</li>
+                                        <li className='navListItem' onClick={goToSettings}>Settings</li>
                                     </ul>
                                 </div>
                             )}

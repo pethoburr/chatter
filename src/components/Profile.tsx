@@ -1,5 +1,5 @@
 import { useEffect, useContext, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { UserContext } from '../App';
 
 import Nav from './Nav'
@@ -7,6 +7,7 @@ import Nav from './Nav'
 const Profile = () => {
     const { userId } = useParams()
     const { token } = useContext(UserContext)
+    const navigator = useNavigate()
     const [userObj, setUserObj] = useState({
         first_name: '',
         last_name: '',
@@ -25,11 +26,16 @@ const Profile = () => {
         }
         fetchData()
     },[])
+
+    const goBack = () => {
+        navigator(-1)
+    }
     
     return(
         <>
             <div className="profileContianer">
                 <Nav />
+                <button className='backButton' onClick={goBack}>back</button>
                 <div className='profilePage'>
                     <ul className='profileInfo'>
                         <li className='infoItem'>First name: {userObj.first_name}</li>
@@ -37,7 +43,6 @@ const Profile = () => {
                         <li className='infoItem'>Username: {userObj.username}</li>
                     </ul>
                 </div>
-
             </div>
         </>
     )
