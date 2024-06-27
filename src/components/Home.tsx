@@ -362,8 +362,6 @@ const Home = () => {
         }
     },[newMsg])
 
-    
-
     return(
         <>
             <div className="page">
@@ -464,8 +462,8 @@ const Home = () => {
             <div className="msgContainer">
            { currentRoom && (
             <>
-                <button onClick={() => leaveGroup()}>Leave Group</button>
-            <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#inviteModal">
+                <button className='leaveGroupBtn' onClick={() => leaveGroup()}>Leave Group</button>
+            <button id='inviteBtn' type="button" className="btn btn-primary" data-toggle="modal" data-target="#inviteModal">
             Invite
             </button>
             <div className="modal fade" id="inviteModal" tabIndex={-1} aria-labelledby="inviteModalLabel" aria-hidden="true">

@@ -33,7 +33,7 @@ const Profile = () => {
     
     return(
         <>
-            <div className="profileContianer">
+            <div className="profileContainer">
                 <Nav />
                 <button className='backButton' onClick={goBack}>back</button>
                 <div className='profilePage'>

@@ -51,12 +51,21 @@
   height: 100vh;
 }
 
+.leaveGroupBtn {
+  width: max-content;
+  align-self: flex-end;
+}
+
+#inviteBtn {
+  width: max-content;
+  align-self: flex-end;
+}
+
 .profilePage {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 98vw;
-  height: 80vh;
+  flex-grow: 1;
 }
 
 .profileInfo {
