@@ -5,6 +5,7 @@ import './App.css'
 import SignUp from './components/SignUp';
 import LogIn from './components/Login';
 import Profile from './components/Profile';
+import Settings from './components/Settings';
 
 export const UserContext = createContext<{ userId: string | null, token: string | null, login: (param1: string, param2: string) => void, logout: () => void }>({
   userId: null,
@@ -47,6 +48,10 @@ function App() {
     {
       path: '/profile/:userId',
       element: <Profile />
+    },
+    {
+      path: '/settings/:userId',
+      element: <Settings />
     }
   ])
 
