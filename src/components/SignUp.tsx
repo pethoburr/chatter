@@ -26,7 +26,7 @@ const SignUp = () => {
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        fetch('http://localhost:3000/sign-up', {
+        fetch('https://chat-app-patient-hill-6075.fly.dev/sign-up', {
             mode: 'cors',
             method: 'POST',
             headers: {

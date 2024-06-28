@@ -27,7 +27,7 @@ const LogIn = () => {
         e.preventDefault();
         console.log(`username: ${username}, password: ${password}`)
         const data: DataObj = { username, password }
-        fetch('http://localhost:3000/log-in', {
+        fetch('https://chat-app-patient-hill-6075.fly.dev/log-in', {
        
         method: 'POST',
         headers: {

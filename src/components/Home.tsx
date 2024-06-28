@@ -53,7 +53,7 @@ const Home = () => {
     }
 
     useEffect(() => {
-        const socket = io('http://localhost:3000');
+        const socket = io('https://chat-app-patient-hill-6075.fly.dev/');
         setSocket(socket);
         socket.on('receive-message', (message) => {
           setReceivedMessages((prevMessages) => [...prevMessages, message]);
@@ -87,7 +87,7 @@ const Home = () => {
       }
 
       const getMsgs = async(id: number | null) => {
-        const resp = await fetch(`http://localhost:3000/get-messages/${id}`, {  headers: {
+        const resp = await fetch(`https://chat-app-patient-hill-6075.fly.dev/get-messages/${id}`, {  headers: {
             'Authorization': `Bearer ${token}`
         }})
         const jayed = await resp.json()
@@ -132,7 +132,7 @@ const Home = () => {
         }
     
     const getChats = () => {
-        fetch(`http://localhost:3000/rooms/${userId}`, {
+        fetch(`https://chat-app-patient-hill-6075.fly.dev/rooms/${userId}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -148,7 +148,7 @@ const Home = () => {
     }
 
     const getAllUsers = () => {
-        fetch('http://localhost:3000/users', {
+        fetch('https://chat-app-patient-hill-6075.fly.dev/users', {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
@@ -319,7 +319,7 @@ const Home = () => {
             chats.forEach((chat) => {
                 if (chat.id === currentRoom) {
                     addedMembers.forEach(async (id) => {
-                        const resp = await fetch(`https://localhost:3000/get-name/${id}`)
+                        const resp = await fetch(`https://chat-app-patient-hill-6075.fly.dev/get-name/${id}`)
                         const jayed: string = await resp.json()
                         setInvPpl((prev) => [...prev, jayed])
                     })
