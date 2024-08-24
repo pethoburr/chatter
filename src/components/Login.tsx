@@ -18,7 +18,7 @@ const LogIn = () => {
     const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value)
     }
-
+ 
     const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value)
     }
@@ -27,8 +27,7 @@ const LogIn = () => {
         e.preventDefault();
         console.log(`username: ${username}, password: ${password}`)
         const data: DataObj = { username, password }
-        fetch('https://chat-app-patient-hill-6075.fly.dev/log-in', {
-       
+        fetch('https://my-mysql-still-frost-808.fly.dev/log-in', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -57,8 +56,6 @@ const LogIn = () => {
     const navSignup = () => {
         navigate('/sign-up')
     }
-
-    
 
     return(
         <>

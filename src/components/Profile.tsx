@@ -20,7 +20,7 @@ const Profile = () => {
         console.log(`user id in profile: ${userId}`)
 
         const fetchData = async() => {
-            const data = await fetch(`https://chat-app-patient-hill-6075.fly.dev/profile/${userId}`, { headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}})
+            const data = await fetch(`https://my-mysql-still-frost-808.fly.dev/profile/${userId}`, { headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`}})
             const jayed = await data.json()
             console.log('jayed data:' + JSON.stringify(jayed))
             const { first_name, last_name, username } = jayed
